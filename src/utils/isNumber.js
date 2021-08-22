@@ -1,4 +1,3 @@
-export default (value) => {
-    const newLocal = typeof value === 'number' && isFinite(value);
-    return newLocal;
-}
+const isNumber = (value) => (typeof value === 'number' && isFinite(value));
+
+export default isNumber;
