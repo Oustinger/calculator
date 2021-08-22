@@ -1,0 +1,28 @@
+.output {
+    --padding: .5rem;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr;
+    grid-gap: var(--padding);
+    text-align: end;
+    font-size: .5rem;
+}
+
+.error {
+    color: red;
+    font-weight: 700;
+}
+
+.input {
+    padding-bottom: var(--padding);
+    font-family: var(--font-main);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color);
+    text-align: end;
+    background-color: inherit;
+    border: 0px;
+    border-bottom: 1px solid #fff;
+    outline: none;
+}

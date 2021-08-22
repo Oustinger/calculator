@@ -8,14 +8,13 @@ import subtraction from './../../calculatorFunctional/calculateOperations/operat
 import numbersInputs from './../../calculatorFunctional/numbersInputs/numbersInputs';
 
 const SET_INPUT = 'calcReducer/SET_INPUT';
-const SET_EXPRESSION = 'calcReducer/SET_EXPRESSION';
 const ADD_SYMBOL = 'calcReducer/ADD_SYMBOL';
 const CLEAN = 'calcReducer/CLEAN';
 const CALCULATE = 'calcReducer/CALCULATE';
 
 const initialState = {
     input: null,
-    expression: null,
+    expression: '12+87*92',
     numbersInputs,
     defaultOperations: {
         calculate: '=',
@@ -25,14 +24,12 @@ const initialState = {
         addition, division, multiplication,
         percent, squareRoot, subtraction,
     },
-    error: null,
+    error: "Some error",
 }
 
 const calcReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_INPUT:
-            return ({ ...state, ...action.payload });
-        case SET_EXPRESSION:
             return ({ ...state, ...action.payload });
         case ADD_SYMBOL:
             return ({ ...state, input: `${state.input}${action.symbol}` });
@@ -52,7 +49,6 @@ const calcReducer = (state = initialState, action) => {
 };
 
 export const setInput = (input) => ({ type: SET_INPUT, payload: { input } });
-export const setExpression = (expression) => ({ type: SET_EXPRESSION, payload: { expression } });
 export const addSymbol = (symbol) => ({ type: ADD_SYMBOL, symbol });
 export const calculate = () => ({ type: CALCULATE });
 export const clean = () => ({ type: CLEAN });

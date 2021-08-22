@@ -15,15 +15,6 @@ test('input should be set', () => {
     expect(newState.input).toBe(newInputValue);
 });
 
-test('expression should be set', () => {
-    const newExpression = '1+1';
-    const action = setExpression(newExpression);
-
-    const newState = calcReducer(state, action);
-
-    expect(newState.expression).toBe(newExpression);
-});
-
 test('new symbol should be added', () => {
     const newSymbol = '1';
     const action = addSymbol(newSymbol);
