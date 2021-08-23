@@ -1,33 +1,5 @@
 import isNumber from './../../utils/isNumber';
-import findOperationBySymbol from './../calculateOperations/findOperationBySymbol';
-import { isSymbolNumberInput } from './../numbersInputs/numbersInputs';
-
-export const parse = (symbols) => {
-    const exprStructure = symbols.split('').reduce((acc, symbol, index) => {
-        if (isSymbolNumberInput(symbol)) {
-            const lastIndex = acc.length - 1;
-            if (isNumber(acc[lastIndex])) {
-                const newLastElement = Number.parseFloat(acc[lastIndex] + symbol);
-                return [...acc.slice(0, lastIndex), newLastElement];
-            }
-
-            const newLastElement = Number.parseInt(symbol);
-            return [...acc, newLastElement];
-        }
-
-        return [...acc, findOperationBySymbol(symbol)];
-    }, []);
-
-    try {
-        // check by operations checkers
-        exprStructure.forEach(
-            (element, index) => isNumber(element) ? null : element.parseCheck(exprStructure, index)
-        );
-        return exprStructure;
-    } catch (error) {
-        throw error;
-    }
-};
+import parse from './parse';
 
 const calculateResult = (expression) => {
     const makeCalculations = (exprStructure, index, maxPriority = -1, maxPriorityOperationIndex = null) => {
@@ -79,8 +51,12 @@ const calculateResult = (expression) => {
     };
 
     const exprStructure = parse(expression);
+    const result = makeCalculations(exprStructure, 0);
+    const formattedResult = result.toString().split('')
+        .map(number => number === '.' ? ',' : number)
+        .reduce((acc, number) => `${acc}${number}`);
 
-    return makeCalculations(exprStructure, 0);
+    return formattedResult;
 };
 
 export default calculateResult;

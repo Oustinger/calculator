@@ -14,7 +14,7 @@ const CALCULATE = 'calcReducer/CALCULATE';
 
 const initialState = {
     input: '',
-    expression: '12+87×92',
+    expression: null,
     numbersInputs,
     defaultOperations: {
         calculate: '=',

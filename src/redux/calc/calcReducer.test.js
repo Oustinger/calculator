@@ -29,7 +29,7 @@ test('result should be calculated', () => {
 
     const newState = calcReducer(state, action);
 
-    expect(newState.input).toBe(25);
+    expect(newState.input).toBe('25');
     expect(newState.expression).toBe(state.input);
     expect(newState.error).toBe(null);
 });
@@ -39,7 +39,7 @@ test('input, express and error should be cleaned', () => {
 
     const newState = calcReducer(state, action);
 
-    expect(newState.input).toBe(null);
+    expect(newState.input).toBe('');
     expect(newState.expression).toBe(null);
     expect(newState.error).toBe(null);
 });

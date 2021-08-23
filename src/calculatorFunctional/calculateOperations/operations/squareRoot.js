@@ -30,7 +30,7 @@ class SquareRoot extends Operation {
     }
     leftExprMustNotBeNum(isExistLeftNum) {
         if (isExistLeftNum) {
-            throw new Error('The square root operation mustn\'t has any number on the right');
+            throw new Error('The square root operation mustn\'t has any number on the left');
         }
     }
 }

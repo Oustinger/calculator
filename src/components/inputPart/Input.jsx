@@ -2,8 +2,7 @@ import cn from 'classnames';
 import styles from './Input.module.css';
 
 const Button = ({ symbol, onClick, isInvert }) => (
-    <div key={symbol}
-        data-symbol={symbol}
+    <div data-symbol={symbol}
         className={cn(styles.button, { [styles.invert]: isInvert })}
         onClick={(e) => onClick(e.currentTarget.dataset.symbol)}>
         {symbol}
@@ -13,11 +12,11 @@ const Button = ({ symbol, onClick, isInvert }) => (
 const createBtn = (addSymbol, calculate, clean) => (data) => {
     switch (data.funcName) {
         case 'addSymbol':
-            return <Button {...data} onClick={addSymbol} />;
+            return <Button key={data.symbol} {...data} onClick={addSymbol} />;
         case 'calculate':
-            return <Button {...data} onClick={calculate} />;
+            return <Button key={data.symbol} {...data} onClick={calculate} />;
         case 'clean':
-            return <Button {...data} onClick={clean} />;
+            return <Button key={data.symbol} {...data} onClick={clean} />;
         default:
             throw new Error('Unknown action creator function name');
     }
