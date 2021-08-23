@@ -13,7 +13,7 @@ const CLEAN = 'calcReducer/CLEAN';
 const CALCULATE = 'calcReducer/CALCULATE';
 
 const initialState = {
-    input: null,
+    input: '',
     expression: '12+87*92',
     numbersInputs,
     defaultOperations: {
@@ -34,7 +34,7 @@ const calcReducer = (state = initialState, action) => {
         case ADD_SYMBOL:
             return ({ ...state, input: `${state.input}${action.symbol}` });
         case CLEAN:
-            return ({ ...state, input: null, expression: null, error: null });
+            return ({ ...state, input: '', expression: null, error: null });
         case CALCULATE:
             try {
                 const expression = state.input;
