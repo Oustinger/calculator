@@ -2,8 +2,9 @@ import cn from 'classnames';
 import { connect, Provider } from 'react-redux';
 import './App.module.css';
 import styles from './App.module.css';
+import Input from './components/inputPart/Input';
 import Output from './components/outputPart/Output';
-import { addSymbol, calculate, clean, setInput } from './redux/calc/calcReducer';
+import { setInput, addSymbol, calculate, clean } from './redux/calc/calcReducer';
 import {
     getError,
     getExpression, getInput, getNumbersInputs,
@@ -19,6 +20,13 @@ const AppComponent = (props) => (
                     inputVal={props.inputVal}
                     error={props.error}
                     onInputChange={(e) => props.setInput(e.currentTarget.value)}
+                />
+                <Input numbersInputs={props.numbersInputs}
+                    topLineOperations={props.topLineOperations}
+                    rightColumnOperations={props.rightColumnOperations}
+                    addSymbol={props.addSymbol}
+                    calculate={props.calculate} 
+                    clean={props.clean}
                 />
             </div>
         </div>

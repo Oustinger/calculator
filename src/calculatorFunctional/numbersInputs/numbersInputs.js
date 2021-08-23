@@ -1,6 +1,6 @@
 import isNumber from "../../utils/isNumber";
 
-const numbers = Array.apply(null, Array(10)).map((val, idx) => idx + 1);    // массив цифр [0-9]
+const numbers = Array.apply(null, Array(10)).map((val, idx) => idx);    // массив цифр [0-9]
 
 
 const doubleZero = '00';

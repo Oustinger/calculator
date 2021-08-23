@@ -1,0 +1,54 @@
+.input {
+    --gap: .5rem;
+
+    display: grid;
+    grid-template-areas: 't t t r'
+    'n n n r'
+    'n n n r';
+    grid-gap: var(--gap);
+}
+
+.topLine {
+    grid-area: t;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: var(--gap);
+    place-items: center;
+}
+
+.rightLine {
+    grid-area: r;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: var(--gap);
+    place-items: center;
+}
+
+.numbersInputs {
+    grid-area: n;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: var(--gap);
+    place-items: center;
+}
+
+.button {
+    width: calc(var(--font-size) + 0.3rem * 2);
+    height: calc(var(--font-size) + 0.3rem * 2);
+    padding: .3rem;
+    text-align: center;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all ease-out .2s;
+}
+
+.button.invert {
+    color: var(--color-contrast);
+    background-color: #fff;
+}
+
+.button:hover {
+    color: var(--color);
+    background-color: #ffffff1f;
+}
