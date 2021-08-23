@@ -12,7 +12,9 @@ import {
 import store from './redux/store';
 
 const AppComponent = (props) => (
-    <div className={styles.app}>
+    <div className={styles.app}
+        onKeyUp={(event) => event.keyCode === 13 ? props.calculate() : null}
+    >
         <div className={styles.app__background}>
             <div className={styles.app__container}>
                 <Output expression={props.expression}
@@ -24,7 +26,7 @@ const AppComponent = (props) => (
                     topLineOperations={props.topLineOperations}
                     rightColumnOperations={props.rightColumnOperations}
                     addSymbol={props.addSymbol}
-                    calculate={props.calculate} 
+                    calculate={props.calculate}
                     clean={props.clean}
                 />
             </div>

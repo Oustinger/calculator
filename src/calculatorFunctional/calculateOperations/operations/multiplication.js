@@ -10,6 +10,10 @@ class Multiplication extends Operation {
 
         this.stepByStepOperations(exprStructure, index);
     }
+
+    checkOperation(symbol) {
+        return super.checkOperation(symbol) || symbol === '*';
+    }
 }
 
 const multiplication = new Multiplication('×', 1);

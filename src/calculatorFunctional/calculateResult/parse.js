@@ -32,7 +32,7 @@ const parse = (symbols) => {
         if (operation)
             return [...acc, operation];
 
-        throw new Error(`Unknown symbol: "${symbol}"`);
+        throw new Error(`Unknown symbol: " ${symbol} "`);
     }, []);
 
     try {
