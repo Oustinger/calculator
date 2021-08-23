@@ -1,20 +1,23 @@
 .output {
     --padding: .5rem;
 
+    padding-top: 1.2rem;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 2fr;
     grid-gap: var(--padding);
     text-align: end;
-    font-size: .5rem;
+    font-size: .7rem;
 }
 
 .error {
+    padding-bottom: var(--padding);
     color: red;
     font-weight: 700;
 }
 
 .input {
+    width: 100%;
     padding-bottom: var(--padding);
     font-family: var(--font-main);
     font-size: 1.2rem;

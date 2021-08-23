@@ -14,7 +14,7 @@ const CALCULATE = 'calcReducer/CALCULATE';
 
 const initialState = {
     input: '',
-    expression: '12+87*92',
+    expression: '12+87×92',
     numbersInputs,
     defaultOperations: {
         calculate: '=',
@@ -24,7 +24,7 @@ const initialState = {
         addition, division, multiplication,
         percent, squareRoot, subtraction,
     },
-    error: "Some error",
+    error: null,
 }
 
 const calcReducer = (state = initialState, action) => {

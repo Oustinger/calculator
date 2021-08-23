@@ -4,12 +4,19 @@ html {
     --color-contrast: #2A5594;
     --color-bg-page: linear-gradient(to bottom right, #FFA1A1, #FF7B7B);
     --font-main: 'Quicksand', sans-serif;
+    --font-size: 35px;
     color: var(--color);
     background: var(--color-bg-page);
-    font-size: 35px;
+    font-size: var(--font-size);
     font-family: var(--font-main);
     font-weight: 500;
     line-height: 1.5;
+}
+
+@media (max-width: 426px) {
+    html {
+        --font-size: 20px;
+    }
 }
 
 body {

@@ -13,15 +13,31 @@ const getNumbersInputsPrimitive = (state) => state.calc.numbersInputs;
 export const getNumbersInputs = createSelector(
     getNumbersInputsPrimitive,
     ({ numbers, doubleZero, decimalSeparator }) => {
-        const formattedNumbers = numbers.map(symbol => formatOperation(symbol)).reverse();
+        const formattedNumbers = numbers.map(symbol => formatOperation(symbol));
         const formattedDoubleZero = formatOperation(doubleZero);
         const formattedDecimalSeparator = formatOperation(decimalSeparator);
 
-        const formattedNumbersLastIndex = formattedNumbers.length - 1;
+        const zeroNumber = formattedNumbers[0];
+        const formattedNumbersWithOutZero = formattedNumbers.slice(1);
+
+        const formattedNumbersRightOrdered = formattedNumbersWithOutZero.reverse()
+            .reduce((acc, number, index) => {
+                const accLastIndex = acc.length - 1;
+                const lastChildArr = acc[accLastIndex];
+                const accWithOutLastChildArr = acc.slice(0, accLastIndex);
+
+                if ((index + 1) % 3 === 0) {
+                    return [...accWithOutLastChildArr, [...lastChildArr, number].reverse(), []];
+                }
+
+                return [...accWithOutLastChildArr, [...lastChildArr, number]];
+            }, [[]])
+            .reduce((acc, childArr) => [...acc, ...childArr], []);
+
         return [
-            ...formattedNumbers.slice(0, formattedNumbersLastIndex),
+            ...formattedNumbersRightOrdered,
             formattedDoubleZero,
-            formattedNumbers[formattedNumbersLastIndex],
+            zeroNumber,
             formattedDecimalSeparator,
         ];
     },

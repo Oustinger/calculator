@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import { connect, Provider } from 'react-redux';
 import './App.module.css';
 import styles from './App.module.css';
@@ -13,7 +12,7 @@ import {
 import store from './redux/store';
 
 const AppComponent = (props) => (
-    <div className={cn(styles.app, 'grid-items-center')}>
+    <div className={styles.app}>
         <div className={styles.app__background}>
             <div className={styles.app__container}>
                 <Output expression={props.expression}
