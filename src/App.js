@@ -52,33 +52,35 @@ const AppComponent = (props) => {
     const [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers] = getOperationsByBlocks(
         props.defaultOperations, props.calcOperations, props.numbersInputs, props.inputFuncs
     );
-
+    
     const appWrapperRef = React.createRef();
-    useEffect(() => {
-        appWrapperRef.current.focus();
-        appWrapperRef.current.addEventListener('keyup', (event) => {
-            if (event.key === 'Enter') {
-                props.inputFuncs.calculate();
-                return;
-            }
-            if (event.currentTarget !== event.target) {
-                event.stopPropagation();
-                return;
-            }
-            if (event.key === 'Backspace') {
-                props.inputFuncs.deleteLastSymbol();
-                return;
-            }
+    const onEvent = (event) => {
+        if (event.key === 'Enter') {
+            props.inputFuncs.calculate();
+            return;
+        }
+        if (event.currentTarget !== event.target) {
+            event.stopPropagation();
+            return;
+        }
+        if (event.key === 'Backspace') {
+            props.inputFuncs.deleteLastSymbol();
+            return;
+        }
 
-            respondOnKeyUp(event.key, topLineBlockOpers);
-            respondOnKeyUp(event.key, rightColumnBlockOpers);
-            respondOnKeyUp(event.key, numbersInputsBlockOpers);
-        });
+        respondOnKeyUp(event.key, topLineBlockOpers);
+        respondOnKeyUp(event.key, rightColumnBlockOpers);
+        respondOnKeyUp(event.key, numbersInputsBlockOpers);
+    };
+    useEffect(() => {
+        const appWrapperElement = appWrapperRef.current;
+        appWrapperElement.focus();
+        appWrapperElement.addEventListener('keyup', onEvent);
 
         return () => {
-            appWrapperRef.current.removeEventListener('keyup');
+            appWrapperElement.removeEventListener('keyup', onEvent);
         };
-    }, []);
+    }, [appWrapperRef, onEvent]);
 
     return (
         <div ref={appWrapperRef} className={styles.app__wrapper} tabIndex={1}>
