@@ -4,7 +4,7 @@ import './App.module.css';
 import styles from './App.module.css';
 import Input from './components/inputPart/Input';
 import Output from './components/outputPart/Output';
-import { addSymbol, calculate, clean, setInput } from './redux/calc/calcReducer';
+import { addSymbol, calculate, clean, setInput, deleteLastSymbol } from './redux/calc/calcReducer';
 import {
     getCalcOperations,
     getDefaultOperations,
@@ -61,9 +61,12 @@ const AppComponent = (props) => {
                 props.inputFuncs.calculate();
                 return;
             }
-
             if (event.currentTarget !== event.target) {
                 event.stopPropagation();
+                return;
+            }
+            if (event.key === 'Backspace') {
+                props.inputFuncs.deleteLastSymbol();
                 return;
             }
 
@@ -112,6 +115,7 @@ const mapDispatchToProps = (dispatch) => ({
         addSymbol: (symbol) => dispatch(addSymbol(symbol)),
         calculate: () => dispatch(calculate()),
         clean: () => dispatch(clean()),
+        deleteLastSymbol: () => dispatch(deleteLastSymbol()),
     },
 });
 
