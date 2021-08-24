@@ -52,7 +52,7 @@ const AppComponent = (props) => {
     const [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers] = getOperationsByBlocks(
         props.defaultOperations, props.calcOperations, props.numbersInputs, props.inputFuncs
     );
-    
+
     const appWrapperRef = React.createRef();
     const onEvent = (event) => {
         if (event.key === 'Enter') {
@@ -80,7 +80,8 @@ const AppComponent = (props) => {
         return () => {
             appWrapperElement.removeEventListener('keyup', onEvent);
         };
-    }, [appWrapperRef, onEvent]);
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <div ref={appWrapperRef} className={styles.app__wrapper} tabIndex={1}>
