@@ -1,9 +1,9 @@
-import addition from "../calculateOperations/operations/addition";
-import division from "../calculateOperations/operations/division";
-import multiplication from '../calculateOperations/operations/multiplication';
-import percent from '../calculateOperations/operations/percent';
-import squareRoot from '../calculateOperations/operations/squareRoot';
-import subtraction from '../calculateOperations/operations/subtraction';
+import addition from './../operations/calculateOperations/operations/addition';
+import division from './../operations/calculateOperations/operations/division';
+import multiplication from './../operations/calculateOperations/operations/multiplication';
+import percent from './../operations/calculateOperations/operations/percent';
+import squareRoot from './../operations/calculateOperations/operations/squareRoot';
+import subtraction from './../operations/calculateOperations/operations/subtraction';
 import parse from './parse';
 
 describe('operations parse checkers', () => {

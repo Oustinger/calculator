@@ -1,7 +1,7 @@
-import calculateResult from '../../calculatorFunctional/calculateResult/calculateResult';
-import calcOperations from './../../calculatorFunctional/calculateOperations/calcOperations';
-import defaultOperations from './../../calculatorFunctional/defaultOperations/defaultOperations';
-import numbersInputs from './../../calculatorFunctional/numbersInputs/numbersInputs';
+import calculateResult from './../../calculatorFunctional/calculateResult/calculateResult';
+import calcOperations from './../../calculatorFunctional/operations/calculateOperations/calcOperations';
+import defaultOperations from './../../calculatorFunctional/operations/defaultOperations/defaultOperations';
+import numbersInputs from './../../calculatorFunctional/operations/numbersInputs/numbersInputs';
 
 const SET_INPUT = 'calcReducer/SET_INPUT';
 const ADD_SYMBOL = 'calcReducer/ADD_SYMBOL';

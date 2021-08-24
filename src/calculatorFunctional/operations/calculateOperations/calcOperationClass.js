@@ -1,5 +1,5 @@
 import CommonOperationClass from '../commonOperationClass';
-import isNumber from "../../utils/isNumber";
+import isNumber from "../../../utils/isNumber";
 
 export default class Operation extends CommonOperationClass {
     constructor(symbol, priority, exSymbols = []) {

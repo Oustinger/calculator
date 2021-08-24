@@ -1,6 +1,6 @@
 import isNumber from './../../utils/isNumber';
-import findOperationBySymbol from './../calculateOperations/findOperationBySymbol';
-import findNumberInputBySymbol from './../numbersInputs/findNumberInputBySymbol';
+import findOperationBySymbol from './../operations/calculateOperations/findOperationBySymbol';
+import findNumberInputBySymbol from './../operations/numbersInputs/findNumberInputBySymbol';
 
 const parse = (symbols) => {
     const exprStructure = symbols.split('').reduce((acc, symbol, index, array) => {

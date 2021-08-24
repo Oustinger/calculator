@@ -1,4 +1,4 @@
-import isNumber from "../../../utils/isNumber";
+import isNumber from "../../../../utils/isNumber";
 import Operation from "../calcOperationClass";
 
 class Percent extends Operation {
