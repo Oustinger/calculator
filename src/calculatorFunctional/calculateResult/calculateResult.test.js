@@ -6,6 +6,11 @@ describe('addition', () => {
         const result = calculateResult(expression);
         expect(result).toBe('7');
     });
+    test('with zero', () => {
+        const expression = '0+2';
+        const result = calculateResult(expression);
+        expect(result).toBe('2');
+    });
     test('Operation first', () => {
         const expression = '+2';
         const result = calculateResult(expression);
@@ -22,6 +27,11 @@ describe('subtraction', () => {
         const expression = '5-2';
         const result = calculateResult(expression);
         expect(result).toBe('3');
+    });
+    test('with zero', () => {
+        const expression = '0-2';
+        const result = calculateResult(expression);
+        expect(result).toBe('-2');
     });
     test('Operation first', () => {
         const expression = '-2';
@@ -40,6 +50,11 @@ describe('multiplication', () => {
         const result = calculateResult(expression);
         expect(result).toBe('12');
     });
+    test('with zero', () => {
+        const expression = '0×2';
+        const result = calculateResult(expression);
+        expect(result).toBe('0');
+    });
     test('Operation first', () => {
         const expression = '×2';
         const result = calculateResult(expression);
@@ -56,6 +71,11 @@ describe('division', () => {
         const expression = '6/2';
         const result = calculateResult(expression);
         expect(result).toBe('3');
+    });
+    test('with zero', () => {
+        const expression = '0/2';
+        const result = calculateResult(expression);
+        expect(result).toBe('0');
     });
     test('Operation first', () => {
         const expression = '/2';

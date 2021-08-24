@@ -2,7 +2,7 @@ import Operation from "../calcOperationClass";
 
 class Subtraction extends Operation {
     calculate(leftNum, rightNum) {
-        return (leftNum ? leftNum : 0) - (rightNum ? rightNum : 0);
+        return (leftNum !== null ? leftNum : 0) - (rightNum !== null ? rightNum : 0);
     }
 
     parseCheck(exprStructure, index) {

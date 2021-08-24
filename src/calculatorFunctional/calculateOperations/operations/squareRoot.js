@@ -5,7 +5,7 @@ class SquareRoot extends Operation {
     canBePlacedBeforeOtherOperation = true;
 
     calculate(leftNum, rightNum) {
-        return (leftNum ? leftNum : 1) * Math.pow(rightNum, 0.5);
+        return (leftNum !== null ? leftNum : 1) * Math.pow(rightNum, 0.5);
     }
 
     checkArg(arg) {
