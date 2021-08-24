@@ -1,46 +1,28 @@
 import cn from 'classnames';
 import styles from './Input.module.css';
 
-const Button = ({ symbol, onClick, isInvert }) => (
+const Button = ({ symbol, func, isInvert }) => (
     <div data-symbol={symbol}
         className={cn(styles.button, { [styles.invert]: isInvert })}
-        onClick={(e) => onClick(e.currentTarget.dataset.symbol)}>
+        onClick={(e) => func(e.currentTarget.dataset.symbol)}>
         {symbol}
     </div>
 );
 
-const createBtn = (addSymbol, calculate, clean) => (data) => {
-    switch (data.funcName) {
-        case 'addSymbol':
-            return <Button key={data.symbol} {...data} onClick={addSymbol} />;
-        case 'calculate':
-            return <Button key={data.symbol} {...data} onClick={calculate} />;
-        case 'clean':
-            return <Button key={data.symbol} {...data} onClick={clean} />;
-        default:
-            throw new Error('Unknown action creator function name');
-    }
-};
+const createBtn = (data) => (<Button key={data.symbol} {...data} />);
 
-const Input = ({
-    topLineOperations, rightColumnOperations, numbersInputs,
-    addSymbol, calculate, clean,
-}) => {
-    const readyCreateBtn = createBtn(addSymbol, calculate, clean);
-
-    return (
-        <div className={styles.input}>
-            <div className={styles.topLine}>
-                {topLineOperations.map(readyCreateBtn)}
-            </div>
-            <div className={styles.rightLine}>
-                {rightColumnOperations.map(readyCreateBtn)}
-            </div>
-            <div className={styles.numbersInputs}>
-                {numbersInputs.map(readyCreateBtn)}
-            </div>
+const Input = ({ topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers }) => (
+    <div className={styles.input}>
+        <div className={styles.topLine}>
+            {topLineBlockOpers.map(createBtn)}
         </div>
-    );
-};
+        <div className={styles.rightLine}>
+            {rightColumnBlockOpers.map(createBtn)}
+        </div>
+        <div className={styles.numbersInputs}>
+            {numbersInputsBlockOpers.map(createBtn)}
+        </div>
+    </div>
+);
 
 export default Input;

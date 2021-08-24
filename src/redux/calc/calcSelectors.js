@@ -5,50 +5,48 @@ export const getExpression = (state) => state.calc.expression;
 export const getError = (state) => state.calc.error;
 
 
-const formatOperation = (symbol, keyCode, funcName = 'addSymbol', isInvert = false) => (
-    { symbol, keyCode, funcName, isInvert }
+const format = (symbol, keyCode, funcName = null, isInvert = false) => ({
+    symbol,
+    keyCode,
+    funcName: funcName ? funcName : 'addSymbol',
+    isInvert,
+});
+const formatOperations = (operations, customOperations = {}) => (
+    Object.entries(operations)
+        .reduce((acc, [name, operation]) => (
+            {
+                ...acc, [name]: format(
+                    operation.getSymbol(),
+                    operation.getKeyCode(),
+                    customOperations[name] ? customOperations[name].funcName : null,
+                    customOperations[name] ? customOperations[name].isInvert : null,
+                )
+            }
+        ), {})
 );
 
 const getNumbersInputsPrimitive = (state) => state.calc.numbersInputs;
 export const getNumbersInputs = createSelector(
     getNumbersInputsPrimitive,
-    ({ zero, one, two, three, four, five, six, seven, eight, nine, doubleZero, comma }) => ([
-        formatOperation(seven.getSymbol(), seven.getKeyCode()),
-        formatOperation(eight.getSymbol(), eight.getKeyCode()),
-        formatOperation(nine.getSymbol(), nine.getKeyCode()),
-        formatOperation(six.getSymbol(), six.getKeyCode()),
-        formatOperation(four.getSymbol(),four.getKeyCode()),
-        formatOperation(five.getSymbol(), five.getKeyCode()),
-        formatOperation(three.getSymbol(), three.getKeyCode()),
-        formatOperation(two.getSymbol(), two.getKeyCode()),
-        formatOperation(one.getSymbol(), one.getKeyCode()),
-        formatOperation(doubleZero.getSymbol(), doubleZero.getKeyCode()),
-        formatOperation(zero.getSymbol(), zero.getKeyCode()),
-        formatOperation(comma.getSymbol(), comma.getKeyCode()),
-    ]),
+    (numberInputs) => formatOperations(numberInputs),
 );
 
-const getDefaultOperations = (state) => state.calc.defaultOperations;
-const getCalcOperations = (state) => state.calc.calcOperations;
-
-export const getTopLineOperations = createSelector(
-    getDefaultOperations,
-    getCalcOperations,
-    ({ clean }, { squareRoot, percent }) => ([
-        formatOperation(clean.getSymbol(), clean.getKeyCode(), 'clean'),
-        formatOperation(squareRoot.getSymbol(), squareRoot.getKeyCode()),
-        formatOperation(percent.getSymbol(), percent.getKeyCode()),
-    ]),
+const getDefaultOperationsPrimitive = (state) => state.calc.defaultOperations;
+export const getDefaultOperations = createSelector(
+    getDefaultOperationsPrimitive,
+    (operations) => formatOperations(operations, {
+        clean: {
+            funcName: 'clean',
+        },
+        calculate: {
+            funcName: 'calculate',
+            isInvert: true,
+        },
+    }),
 );
 
-export const getRightColumnOperations = createSelector(
-    getDefaultOperations,
-    getCalcOperations,
-    ({ calculate }, { division, multiplication, subtraction, addition }) => ([
-        formatOperation(division.getSymbol(), division.getKeyCode()),
-        formatOperation(multiplication.getSymbol(), multiplication.getKeyCode()),
-        formatOperation(subtraction.getSymbol(), subtraction.getKeyCode()),
-        formatOperation(addition.getSymbol(), addition.getKeyCode()),
-        formatOperation(calculate.getSymbol(), calculate.getKeyCode(), 'calculate', true),
-    ]),
+const getCalcOperationsPrimitive = (state) => state.calc.calcOperations;
+export const getCalcOperations = createSelector(
+    getCalcOperationsPrimitive,
+    (operations) => formatOperations(operations),
 );

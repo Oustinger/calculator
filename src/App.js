@@ -3,49 +3,89 @@ import './App.module.css';
 import styles from './App.module.css';
 import Input from './components/inputPart/Input';
 import Output from './components/outputPart/Output';
-import { setInput, addSymbol, calculate, clean } from './redux/calc/calcReducer';
+import { addSymbol, calculate, clean, setInput } from './redux/calc/calcReducer';
 import {
+    getCalcOperations,
+    getDefaultOperations,
     getError,
-    getExpression, getInput, getNumbersInputs,
-    getRightColumnOperations, getTopLineOperations
+    getExpression, getInput, getNumbersInputs
 } from './redux/calc/calcSelectors';
 import store from './redux/store';
 
-const AppComponent = (props) => (
-    <div className={styles.app}
-        onKeyUp={(event) => event.keyCode === 13 ? props.calculate() : null}
-    >
-        <div className={styles.app__background}>
-            <div className={styles.app__container}>
-                <Output expression={props.expression}
-                    inputVal={props.inputVal}
-                    error={props.error}
-                    onInputChange={(e) => props.setInput(e.currentTarget.value)}
-                />
-                <Input numbersInputs={props.numbersInputs}
-                    topLineOperations={props.topLineOperations}
-                    rightColumnOperations={props.rightColumnOperations}
-                    addSymbol={props.addSymbol}
-                    calculate={props.calculate}
-                    clean={props.clean}
-                />
+const setFunctions = (operations, inputFuncs) => (
+    Object.entries(operations)
+        .reduce((acc, [operationName, operation]) => {
+            const func = Object.entries(inputFuncs)
+                .find(([funcName]) => funcName === operation.funcName)[1];
+
+            const newOperation = { ...operation, func };
+
+            return { ...acc, [operationName]: newOperation };
+        }, {})
+);
+
+const getOperationsByBlocks = (defaultOperations, calcOperations, numbersInputs, inputFuncs) => {
+    const { clean, calculate } = setFunctions(defaultOperations, inputFuncs);
+    const {
+        addition, division, multiplication, percent, squareRoot, subtraction,
+    } = setFunctions(calcOperations, inputFuncs);
+    const {
+        zero, one, two, three, four, five, six, seven, eight, nine, doubleZero, comma,
+    } = setFunctions(numbersInputs, inputFuncs);
+
+    const topLineBlockOpers = [clean, squareRoot, percent];
+    const rightColumnBlockOpers = [division, multiplication, subtraction, addition, calculate];
+    const numbersInputsBlockOpers = [seven, eight, nine, four, five, six, three, two, one, doubleZero, zero, comma];
+
+    return [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers];
+};
+
+const AppComponent = (props) => {
+    const [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers] = getOperationsByBlocks(
+        props.defaultOperations, props.calcOperations, props.numbersInputs, props.inputFuncs
+    );
+
+    return (
+        <div className={styles.app}
+            onKeyUp={(event) => event.keyCode === 13 ? props.inputFuncs.calculate() : null}
+        >
+            <div className={styles.app__background}>
+                <div className={styles.app__container}>
+                    <Output expression={props.expression}
+                        inputVal={props.inputVal}
+                        error={props.error}
+                        onInputChange={(e) => props.setInput(e.currentTarget.value)}
+                    />
+                    <Input numbersInputsBlockOpers={numbersInputsBlockOpers}
+                        topLineBlockOpers={topLineBlockOpers}
+                        rightColumnBlockOpers={rightColumnBlockOpers}
+                    />
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
 
 const mapStateToProps = (state) => ({
     inputVal: getInput(state),
     expression: getExpression(state),
     error: getError(state),
     numbersInputs: getNumbersInputs(state),
-    topLineOperations: getTopLineOperations(state),
-    rightColumnOperations: getRightColumnOperations(state),
+    defaultOperations: getDefaultOperations(state),
+    calcOperations: getCalcOperations(state),
+});
+const mapDispatchToProps = (dispatch) => ({
+    setInput: (value) => dispatch(setInput(value)),
+    inputFuncs: {
+        addSymbol: (symbol) => dispatch(addSymbol(symbol)),
+        calculate: () => dispatch(calculate()),
+        clean: () => dispatch(clean()),
+    },
 });
 
 const AppComponentContainer = connect(
     mapStateToProps,
-    { setInput, addSymbol, calculate, clean }
+    mapDispatchToProps,
 )(AppComponent);
 
 const App = () => (
