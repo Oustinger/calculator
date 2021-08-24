@@ -114,6 +114,15 @@ describe('floats should be calc', () => {
 
         expect(result).toBe('3908,1504');
     });
+});
+describe('expression with exSymbols should be calc', () => {
+    test('common', () => {
+        const expression = '2*5';
+
+        const result = calculateResult(expression);
+
+        expect(result).toBe('10');
+    });
     test('dot instead of comma', () => {
         const expression = '52.36×74.64';
 

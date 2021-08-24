@@ -1,5 +1,5 @@
 import isNumber from "../../../utils/isNumber";
-import Operation from "../operation";
+import Operation from "../calcOperationClass";
 
 class Percent extends Operation {
     canBePlacedBeforeOtherOperation = true;
@@ -56,6 +56,6 @@ class Percent extends Operation {
     }
 }
 
-const percent = new Percent('%', 2);
+const percent = new Percent('%', 2, 53);
 
 export default percent;

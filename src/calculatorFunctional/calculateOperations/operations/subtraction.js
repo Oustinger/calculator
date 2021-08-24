@@ -1,4 +1,4 @@
-import Operation from "../operation";
+import Operation from "../calcOperationClass";
 
 class Subtraction extends Operation {
     calculate(leftNum, rightNum) {
@@ -12,6 +12,6 @@ class Subtraction extends Operation {
     }
 }
 
-const subtraction = new Subtraction('-', 0);
+const subtraction = new Subtraction('-', 0, 189);
 
 export default subtraction;

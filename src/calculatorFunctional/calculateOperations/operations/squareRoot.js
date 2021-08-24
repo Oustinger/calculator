@@ -1,4 +1,4 @@
-import Operation from "../operation";
+import Operation from "../calcOperationClass";
 
 class SquareRoot extends Operation {
     canBePlacedAfterOtherOperation = true;

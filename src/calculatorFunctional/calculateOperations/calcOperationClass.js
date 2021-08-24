@@ -1,17 +1,16 @@
+import CommonOperationClass from '../commonOperationClass';
 import isNumber from "../../utils/isNumber";
 
-export default class Operation {
-    constructor(symbol, priority) {
-        this.symbol = symbol;
+export default class Operation extends CommonOperationClass {
+    constructor(symbol, priority, keyCode = null, exSymbols = []) {
+        super(symbol, keyCode, exSymbols);
         this.priority = priority;
     }
 
     canBePlacedAfterOtherOperation = false;
     canBePlacedBeforeOtherOperation = false;
 
-    checkOperation(symbol) {
-        return this.symbol === symbol;
-    };
+    hasOwnFullCalculateFunc = false;
 
 
     parseCheck(exprStructure, index) {
@@ -91,6 +90,4 @@ export default class Operation {
             throw new Error('There are operations that cannot be performed step by step');
         }
     }
-
-    hasOwnFullCalculateFunc = false;
 };

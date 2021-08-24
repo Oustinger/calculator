@@ -1,10 +1,6 @@
 import calculateResult from '../../calculatorFunctional/calculateResult/calculateResult';
-import addition from './../../calculatorFunctional/calculateOperations/operations/addition';
-import division from './../../calculatorFunctional/calculateOperations/operations/division';
-import multiplication from './../../calculatorFunctional/calculateOperations/operations/multiplication';
-import percent from './../../calculatorFunctional/calculateOperations/operations/percent';
-import squareRoot from './../../calculatorFunctional/calculateOperations/operations/squareRoot';
-import subtraction from './../../calculatorFunctional/calculateOperations/operations/subtraction';
+import calcOperations from './../../calculatorFunctional/calculateOperations/calcOperations';
+import defaultOperations from './../../calculatorFunctional/defaultOperations/defaultOperations';
 import numbersInputs from './../../calculatorFunctional/numbersInputs/numbersInputs';
 
 const SET_INPUT = 'calcReducer/SET_INPUT';
@@ -16,14 +12,8 @@ const initialState = {
     input: '',
     expression: null,
     numbersInputs,
-    defaultOperations: {
-        calculate: '=',
-        clean: 'C',
-    },
-    calcOperations: {
-        addition, division, multiplication,
-        percent, squareRoot, subtraction,
-    },
+    defaultOperations,
+    calcOperations,
     error: null,
 }
 

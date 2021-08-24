@@ -1,16 +1,17 @@
 import isNumber from './../../utils/isNumber';
 import findOperationBySymbol from './../calculateOperations/findOperationBySymbol';
-import { getNumberInput, isSymbolNumberInput } from './../numbersInputs/numbersInputs';
+import findNumberInputBySymbol from './../numbersInputs/findNumberInputBySymbol';
 
 const parse = (symbols) => {
     const exprStructure = symbols.split('').reduce((acc, symbol, index, array) => {
-        if (isSymbolNumberInput(symbol)) {
-            const correctSymbol = getNumberInput(symbol);
+        const numberInput = findNumberInputBySymbol(symbol);
+        if (numberInput) {
+            const correctSymbol = numberInput.getCorrectSymbol();
 
             const lastIndex = acc.length - 1;
             const lastElement = acc[lastIndex];
             const nextSymbolIndex = index + 1;
-            const isNextSymbolNumber = isSymbolNumberInput(array[nextSymbolIndex]);
+            const isNextSymbolNumber = !!findNumberInputBySymbol(array[nextSymbolIndex]);
 
             if (isNumber(Number.parseFloat(lastElement))) {
                 const newLastElement = lastElement + correctSymbol;

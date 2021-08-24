@@ -1,4 +1,4 @@
-import Operation from "../operation";
+import Operation from "../calcOperationClass";
 
 class Multiplication extends Operation {
     calculate(leftNum, rightNum) {
@@ -10,12 +10,8 @@ class Multiplication extends Operation {
 
         this.stepByStepOperations(exprStructure, index);
     }
-
-    checkOperation(symbol) {
-        return super.checkOperation(symbol) || symbol === '*';
-    }
 }
 
-const multiplication = new Multiplication('×', 1);
+const multiplication = new Multiplication('×', 1, 56, ['*']);
 
 export default multiplication;

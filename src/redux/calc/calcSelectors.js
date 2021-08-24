@@ -5,42 +5,27 @@ export const getExpression = (state) => state.calc.expression;
 export const getError = (state) => state.calc.error;
 
 
-const formatOperation = (symbol, funcName = 'addSymbol', isInvert = false) => (
-    { symbol, funcName, isInvert }
+const formatOperation = (symbol, keyCode, funcName = 'addSymbol', isInvert = false) => (
+    { symbol, keyCode, funcName, isInvert }
 );
 
 const getNumbersInputsPrimitive = (state) => state.calc.numbersInputs;
 export const getNumbersInputs = createSelector(
     getNumbersInputsPrimitive,
-    ({ numbers, doubleZero, decimalSeparator }) => {
-        const formattedNumbers = numbers.map(symbol => formatOperation(symbol));
-        const formattedDoubleZero = formatOperation(doubleZero);
-        const formattedDecimalSeparator = formatOperation(decimalSeparator);
-
-        const zeroNumber = formattedNumbers[0];
-        const formattedNumbersWithOutZero = formattedNumbers.slice(1);
-
-        const formattedNumbersRightOrdered = formattedNumbersWithOutZero.reverse()
-            .reduce((acc, number, index) => {
-                const accLastIndex = acc.length - 1;
-                const lastChildArr = acc[accLastIndex];
-                const accWithOutLastChildArr = acc.slice(0, accLastIndex);
-
-                if ((index + 1) % 3 === 0) {
-                    return [...accWithOutLastChildArr, [...lastChildArr, number].reverse(), []];
-                }
-
-                return [...accWithOutLastChildArr, [...lastChildArr, number]];
-            }, [[]])
-            .reduce((acc, childArr) => [...acc, ...childArr], []);
-
-        return [
-            ...formattedNumbersRightOrdered,
-            formattedDoubleZero,
-            zeroNumber,
-            formattedDecimalSeparator,
-        ];
-    },
+    ({ zero, one, two, three, four, five, six, seven, eight, nine, doubleZero, comma }) => ([
+        formatOperation(seven.getSymbol(), seven.getKeyCode()),
+        formatOperation(eight.getSymbol(), eight.getKeyCode()),
+        formatOperation(nine.getSymbol(), nine.getKeyCode()),
+        formatOperation(six.getSymbol(), six.getKeyCode()),
+        formatOperation(four.getSymbol(),four.getKeyCode()),
+        formatOperation(five.getSymbol(), five.getKeyCode()),
+        formatOperation(three.getSymbol(), three.getKeyCode()),
+        formatOperation(two.getSymbol(), two.getKeyCode()),
+        formatOperation(one.getSymbol(), one.getKeyCode()),
+        formatOperation(doubleZero.getSymbol(), doubleZero.getKeyCode()),
+        formatOperation(zero.getSymbol(), zero.getKeyCode()),
+        formatOperation(comma.getSymbol(), comma.getKeyCode()),
+    ]),
 );
 
 const getDefaultOperations = (state) => state.calc.defaultOperations;
@@ -50,9 +35,9 @@ export const getTopLineOperations = createSelector(
     getDefaultOperations,
     getCalcOperations,
     ({ clean }, { squareRoot, percent }) => ([
-        formatOperation(clean, 'clean'),
-        formatOperation(squareRoot.symbol),
-        formatOperation(percent.symbol),
+        formatOperation(clean.getSymbol(), clean.getKeyCode(), 'clean'),
+        formatOperation(squareRoot.getSymbol(), squareRoot.getKeyCode()),
+        formatOperation(percent.getSymbol(), percent.getKeyCode()),
     ]),
 );
 
@@ -60,10 +45,10 @@ export const getRightColumnOperations = createSelector(
     getDefaultOperations,
     getCalcOperations,
     ({ calculate }, { division, multiplication, subtraction, addition }) => ([
-        formatOperation(division.symbol),
-        formatOperation(multiplication.symbol),
-        formatOperation(subtraction.symbol),
-        formatOperation(addition.symbol),
-        formatOperation(calculate, 'calculate', true),
+        formatOperation(division.getSymbol(), division.getKeyCode()),
+        formatOperation(multiplication.getSymbol(), multiplication.getKeyCode()),
+        formatOperation(subtraction.getSymbol(), subtraction.getKeyCode()),
+        formatOperation(addition.getSymbol(), addition.getKeyCode()),
+        formatOperation(calculate.getSymbol(), calculate.getKeyCode(), 'calculate', true),
     ]),
 );

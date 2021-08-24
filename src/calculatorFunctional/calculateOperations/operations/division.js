@@ -1,4 +1,4 @@
-import Operation from "../operation";
+import Operation from "../calcOperationClass";
 
 class Division extends Operation {
     calculate(leftNum, rightNum) {
@@ -26,6 +26,6 @@ class Division extends Operation {
     }
 }
 
-const division = new Division('/', 1);
+const division = new Division('/', 1, 191);
 
 export default division;

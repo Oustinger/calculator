@@ -1,19 +1,18 @@
-import isNumber from "../../utils/isNumber";
+import eight from './numbers/default/eight';
+import five from './numbers/default/five';
+import four from './numbers/default/four';
+import nine from './numbers/default/nine';
+import one from './numbers/default/one';
+import seven from './numbers/default/seven';
+import six from './numbers/default/six';
+import three from './numbers/default/three';
+import two from './numbers/default/two';
+import zero from './numbers/default/zero';
+import doubleZero from './numbers/doubleZero';
+import comma from './otherInputs/comma';
 
-const numbers = Array.apply(null, Array(10)).map((val, idx) => idx);    // массив цифр [0-9]
-
-
-const doubleZero = '00';
-const decimalSeparators = [',', '.'];
-
-
-export const isSymbolNumberInput = (symbol) => {
-    const reg = /[0-9, \,, \.]/;
-    return (isNumber(symbol) || typeof symbol === 'string') && (symbol.length === 1) && reg.test(symbol);
+const numbersInputs = {
+    zero, one, two, three, four, five, six, seven, eight, nine, doubleZero, comma
 };
-
-export const getNumberInput = (symbol) => (decimalSeparators.includes(symbol) ? '.' : symbol);
-
-const numbersInputs = { numbers, doubleZero, decimalSeparator: decimalSeparators[0] };
 
 export default numbersInputs;
