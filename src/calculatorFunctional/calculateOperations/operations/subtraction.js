@@ -12,6 +12,6 @@ class Subtraction extends Operation {
     }
 }
 
-const subtraction = new Subtraction('-', 0, 189);
+const subtraction = new Subtraction('-', 0);
 
 export default subtraction;

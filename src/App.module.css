@@ -1,3 +1,10 @@
+.app__wrapper {
+    display: grid;
+    min-height: inherit;
+    place-items: center;
+    outline: none;
+}
+
 .app {
     --border-radius: 20px;
     --app-padding: 1rem;

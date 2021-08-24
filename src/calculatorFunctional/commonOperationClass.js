@@ -1,23 +1,22 @@
 export default class CommonOperationClass {
-    constructor (symbol, keyCode = null, exSymbols = []) {
+    constructor(symbol, exSymbols = []) {
         this.symbol = symbol;
-        this.keyCode = keyCode;
         this.exSymbols = exSymbols;
     }
 
-    getSymbol () {
+    getSymbol() {
         return this.symbol;
     };
 
-    getCorrectSymbol () {
+    getExSymbols() {
+        return this.exSymbols;
+    };
+
+    getMathCorrectSymbol() {
         return this.symbol;
     };
 
-    getKeyCode () {
-        return this.keyCode;
-    };
-
-    checkIsOperation (symbol) {
+    checkIsOperation(symbol) {
         return this.symbol === symbol || this.exSymbols.includes(symbol);
     };
 }

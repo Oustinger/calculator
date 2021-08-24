@@ -1,5 +1,5 @@
 import CommonOperationClass from '../../commonOperationClass';
 
-const calculate = new CommonOperationClass('=', 13);
+const calculate = new CommonOperationClass('=');
 
 export default calculate;

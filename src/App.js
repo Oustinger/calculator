@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { connect, Provider } from 'react-redux';
 import './App.module.css';
 import styles from './App.module.css';
@@ -40,26 +41,57 @@ const getOperationsByBlocks = (defaultOperations, calcOperations, numbersInputs,
     return [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers];
 };
 
+const respondOnKeyUp = (key, operations) => (
+    Object.values(operations)
+        .forEach(operation => (
+            (operation.symbol === key || operation.exSymbols.includes(key)) ? operation.func(operation.symbol) : null
+        ))
+);
+
 const AppComponent = (props) => {
     const [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers] = getOperationsByBlocks(
         props.defaultOperations, props.calcOperations, props.numbersInputs, props.inputFuncs
     );
 
+    const appWrapperRef = React.createRef();
+    useEffect(() => {
+        appWrapperRef.current.focus();
+        appWrapperRef.current.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                props.inputFuncs.calculate();
+                return;
+            }
+
+            if (event.currentTarget !== event.target) {
+                event.stopPropagation();
+                return;
+            }
+
+            respondOnKeyUp(event.key, topLineBlockOpers);
+            respondOnKeyUp(event.key, rightColumnBlockOpers);
+            respondOnKeyUp(event.key, numbersInputsBlockOpers);
+        });
+
+        return () => {
+            appWrapperRef.current.removeEventListener('keyup');
+        };
+    }, []);
+
     return (
-        <div className={styles.app}
-            onKeyUp={(event) => event.keyCode === 13 ? props.inputFuncs.calculate() : null}
-        >
-            <div className={styles.app__background}>
-                <div className={styles.app__container}>
-                    <Output expression={props.expression}
-                        inputVal={props.inputVal}
-                        error={props.error}
-                        onInputChange={(e) => props.setInput(e.currentTarget.value)}
-                    />
-                    <Input numbersInputsBlockOpers={numbersInputsBlockOpers}
-                        topLineBlockOpers={topLineBlockOpers}
-                        rightColumnBlockOpers={rightColumnBlockOpers}
-                    />
+        <div ref={appWrapperRef} className={styles.app__wrapper} tabIndex={1}>
+            <div className={styles.app}>
+                <div className={styles.app__background}>
+                    <div className={styles.app__container}>
+                        <Output expression={props.expression}
+                            inputVal={props.inputVal}
+                            error={props.error}
+                            onInputChange={(e) => props.setInput(e.currentTarget.value)}
+                        />
+                        <Input numbersInputsBlockOpers={numbersInputsBlockOpers}
+                            topLineBlockOpers={topLineBlockOpers}
+                            rightColumnBlockOpers={rightColumnBlockOpers}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

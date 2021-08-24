@@ -5,9 +5,9 @@ export const getExpression = (state) => state.calc.expression;
 export const getError = (state) => state.calc.error;
 
 
-const format = (symbol, keyCode, funcName = null, isInvert = false) => ({
+const format = (symbol, exSymbols, funcName = null, isInvert = false) => ({
     symbol,
-    keyCode,
+    exSymbols,
     funcName: funcName ? funcName : 'addSymbol',
     isInvert,
 });
@@ -17,7 +17,7 @@ const formatOperations = (operations, customOperations = {}) => (
             {
                 ...acc, [name]: format(
                     operation.getSymbol(),
-                    operation.getKeyCode(),
+                    operation.getExSymbols(),
                     customOperations[name] ? customOperations[name].funcName : null,
                     customOperations[name] ? customOperations[name].isInvert : null,
                 )

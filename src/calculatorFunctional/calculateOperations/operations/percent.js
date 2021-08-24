@@ -56,6 +56,6 @@ class Percent extends Operation {
     }
 }
 
-const percent = new Percent('%', 2, 53);
+const percent = new Percent('%', 2);
 
 export default percent;

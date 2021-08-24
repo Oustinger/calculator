@@ -6,7 +6,7 @@ const parse = (symbols) => {
     const exprStructure = symbols.split('').reduce((acc, symbol, index, array) => {
         const numberInput = findNumberInputBySymbol(symbol);
         if (numberInput) {
-            const correctSymbol = numberInput.getCorrectSymbol();
+            const correctSymbol = numberInput.getMathCorrectSymbol();
 
             const lastIndex = acc.length - 1;
             const lastElement = acc[lastIndex];

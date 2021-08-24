@@ -1,11 +1,11 @@
 import CommonOperationClass from '../../commonOperationClass';
 
 class Comma extends CommonOperationClass {
-    getCorrectSymbol() {
+    getMathCorrectSymbol() {
         return this.exSymbols[0];
     }
 }
 
-const comma = new Comma(',', 188, ['.']);
+const comma = new Comma(',', ['.']);
 
 export default comma;

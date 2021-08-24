@@ -2,8 +2,8 @@ import CommonOperationClass from '../commonOperationClass';
 import isNumber from "../../utils/isNumber";
 
 export default class Operation extends CommonOperationClass {
-    constructor(symbol, priority, keyCode = null, exSymbols = []) {
-        super(symbol, keyCode, exSymbols);
+    constructor(symbol, priority, exSymbols = []) {
+        super(symbol, exSymbols);
         this.priority = priority;
     }
 

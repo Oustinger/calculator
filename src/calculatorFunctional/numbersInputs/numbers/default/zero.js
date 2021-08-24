@@ -1,5 +1,5 @@
 import CommonOperationClass from '../../../commonOperationClass';
 
-const zero = new CommonOperationClass('0', 48);
+const zero = new CommonOperationClass('0');
 
 export default zero;

@@ -35,6 +35,6 @@ class SquareRoot extends Operation {
     }
 }
 
-const squareRoot = new SquareRoot('√', 2);
+const squareRoot = new SquareRoot('√');
 
 export default squareRoot;

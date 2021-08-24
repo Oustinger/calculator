@@ -12,6 +12,6 @@ class Multiplication extends Operation {
     }
 }
 
-const multiplication = new Multiplication('×', 1, 56, ['*']);
+const multiplication = new Multiplication('×', 1, ['*']);
 
 export default multiplication;
