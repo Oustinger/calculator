@@ -152,9 +152,9 @@ describe('expression with exSymbols should be calc', () => {
     });
 });
 test('huge expression', () => {
-    const expression = '-√0+6+4/√4×2+50%-10/2';
+    const expression = '-√0+6+4/√4×2+50%-10/2+((10*5-20%)/(12/6))';
 
     const result = calculateResult(expression);
 
-    expect(result).toBe('10');
+    expect(result).toBe('30');
 });

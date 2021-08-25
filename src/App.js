@@ -4,12 +4,12 @@ import './App.module.css';
 import styles from './App.module.css';
 import Input from './components/inputPart/Input';
 import Output from './components/outputPart/Output';
-import { addSymbol, calculate, clean, setInput, deleteLastSymbol } from './redux/calc/calcReducer';
+import { addSymbol, calculate, clean, deleteLastSymbol, setInput } from './redux/calc/calcReducer';
 import {
     getCalcOperations,
     getDefaultOperations,
     getError,
-    getExpression, getInput, getNumbersInputs
+    getExpression, getInput, getNumbersInputs, getParenthesesOperations
 } from './redux/calc/calcSelectors';
 import store from './redux/store';
 
@@ -25,8 +25,9 @@ const setFunctions = (operations, inputFuncs) => (
         }, {})
 );
 
-const getOperationsByBlocks = (defaultOperations, calcOperations, numbersInputs, inputFuncs) => {
+const getOperationsByBlocks = (defaultOperations, calcOperations, numbersInputs, parenthesesOperations, inputFuncs) => {
     const { clean, calculate } = setFunctions(defaultOperations, inputFuncs);
+    const { openParenthesis, closeParenthesis } = setFunctions(parenthesesOperations, inputFuncs);
     const {
         addition, division, multiplication, percent, squareRoot, subtraction,
     } = setFunctions(calcOperations, inputFuncs);
@@ -37,8 +38,9 @@ const getOperationsByBlocks = (defaultOperations, calcOperations, numbersInputs,
     const topLineBlockOpers = [clean, squareRoot, percent];
     const rightColumnBlockOpers = [division, multiplication, subtraction, addition, calculate];
     const numbersInputsBlockOpers = [seven, eight, nine, four, five, six, three, two, one, doubleZero, zero, comma];
+    const noBlockOpers = [openParenthesis, closeParenthesis];
 
-    return [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers];
+    return [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers, noBlockOpers];
 };
 
 const respondOnKeyUp = (key, operations) => (
@@ -49,8 +51,9 @@ const respondOnKeyUp = (key, operations) => (
 );
 
 const AppComponent = (props) => {
-    const [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers] = getOperationsByBlocks(
-        props.defaultOperations, props.calcOperations, props.numbersInputs, props.inputFuncs
+    const [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers, noBlockOpers] = getOperationsByBlocks(
+        props.defaultOperations, props.calcOperations, props.numbersInputs,
+        props.parenthesesOperations, props.inputFuncs,
     );
 
     const appWrapperRef = React.createRef();
@@ -71,14 +74,15 @@ const AppComponent = (props) => {
         respondOnKeyUp(event.key, topLineBlockOpers);
         respondOnKeyUp(event.key, rightColumnBlockOpers);
         respondOnKeyUp(event.key, numbersInputsBlockOpers);
+        respondOnKeyUp(event.key, noBlockOpers);
     };
     useEffect(() => {
         const appWrapperElement = appWrapperRef.current;
         appWrapperElement.focus();
-        appWrapperElement.addEventListener('keyup', onEvent);
+        appWrapperElement.addEventListener('keydown', onEvent);
 
         return () => {
-            appWrapperElement.removeEventListener('keyup', onEvent);
+            appWrapperElement.removeEventListener('keydown', onEvent);
         };
         // eslint-disable-next-line
     }, []);
@@ -109,6 +113,7 @@ const mapStateToProps = (state) => ({
     expression: getExpression(state),
     error: getError(state),
     numbersInputs: getNumbersInputs(state),
+    parenthesesOperations: getParenthesesOperations(state),
     defaultOperations: getDefaultOperations(state),
     calcOperations: getCalcOperations(state),
 });

@@ -31,6 +31,12 @@ export const getNumbersInputs = createSelector(
     (numberInputs) => formatOperations(numberInputs),
 );
 
+const getParenthesesOperationsPrimitive = (state) => state.calc.parenthesesOperations;
+export const getParenthesesOperations = createSelector(
+    getParenthesesOperationsPrimitive,
+    (parenthesesOperations) => formatOperations(parenthesesOperations),
+);
+
 const getDefaultOperationsPrimitive = (state) => state.calc.defaultOperations;
 export const getDefaultOperations = createSelector(
     getDefaultOperationsPrimitive,

@@ -1,3 +1,4 @@
+import arrayHelper from "../../../../utils/arrayHelper";
 import isNumber from "../../../../utils/isNumber";
 import Operation from "../calcOperationClass";
 
@@ -39,11 +40,9 @@ class Percent extends Operation {
 
         const result = mainNum / 100 * secondaryNum;
 
-        const newExprStructure = [
-            ...exprStructure.slice(0, secondaryNumIndex),
-            result,
-            ...exprStructure.slice(operationIndex + 1),
-        ];
+        const newExprStructure = arrayHelper.changeItemsOnItem(
+            exprStructure, result, secondaryNumIndex - 1, operationIndex + 1
+        );
 
         return newExprStructure;
     };

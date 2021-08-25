@@ -76,18 +76,22 @@ export default class Operation extends CommonOperationClass {
         }
     }
     stepByStepOperations(exprStructure, index) {
-        const { prevExprElem } = this.getPrevExprElem(exprStructure, index);
-        const { nextExprElem } = this.getNextExprElem(exprStructure, index);
+        const { prevExprElem, isExistPrevExprElem } = this.getPrevExprElem(exprStructure, index);
+        const { nextExprElem, isExistNextExprElem } = this.getNextExprElem(exprStructure, index);
 
         if (
             (
-                prevExprElem && !isNumber(prevExprElem) && (
-                    !prevExprElem.canBePlacedBeforeOtherOperation || this.canBePlacedAfterOtherOperation
-                )
+                isExistPrevExprElem
+                && !isNumber(prevExprElem)
+                && !Array.isArray(prevExprElem)
+                && !prevExprElem.canBePlacedBeforeOtherOperation
+                && !this.canBePlacedAfterOtherOperation
             ) || (
-                nextExprElem && !isNumber(nextExprElem) && (
-                    !nextExprElem.canBePlacedAfterOtherOperation || this.canBePlacedBeforeOtherOperation
-                )
+                isExistNextExprElem
+                && !isNumber(nextExprElem)
+                && !Array.isArray(nextExprElem)
+                && !nextExprElem.canBePlacedAfterOtherOperation
+                && !this.canBePlacedBeforeOtherOperation
             )
         ) {
             throw new Error(`The ${this.operationName} cannot be performed before other operation`);

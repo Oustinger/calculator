@@ -1,57 +1,73 @@
+import arrayHelper from '../../utils/arrayHelper';
 import isNumber from './../../utils/isNumber';
-import parse from './parse';
+import parseSymbols from './parseSymbols';
+
+const calculateExpr = (expr, index = 0, maxPriority = -1, maxPriorityOperationIndex = null) => {
+    if (expr.length === 0) {
+        return 0;
+    }
+
+    if (expr.length === 1) {
+        return expr[0];
+    }
+
+    if (index === expr.length) {
+        const operation = expr[maxPriorityOperationIndex];
+
+        if (operation.hasOwnFullCalculateFunc) {
+            const newExprStructure = operation.calculate(
+                expr, calculateExpr, maxPriorityOperationIndex
+            );
+            return calculateExpr(newExprStructure, 0);
+        }
+
+        const leftNumIndex = maxPriorityOperationIndex - 1;
+        const isExistLeftNum = (leftNumIndex >= 0) && isNumber(expr[leftNumIndex]);
+        const leftNum = isExistLeftNum ? expr[leftNumIndex] : null;
+
+        const rightNumIndex = maxPriorityOperationIndex + 1;
+        const isExistRightNum = (rightNumIndex < index) && isNumber(expr[rightNumIndex]);
+        const rightNum = isExistRightNum ? expr[rightNumIndex] : null;
+
+        const result = operation.calculate(leftNum, rightNum);
+
+        const leftBorderIndex = isExistLeftNum ? leftNumIndex - 1 : leftNumIndex;
+        const rightBorderIndex = isExistRightNum ? rightNumIndex + 1 : rightNumIndex;
+        const newExprStructure = arrayHelper.changeItemsOnItem(expr, result, leftBorderIndex, rightBorderIndex);
+
+        return calculateExpr(newExprStructure, 0);
+    }
+
+    const exprChild = expr[index];
+
+    const isExprChildNumber = isNumber(exprChild);
+    if (isExprChildNumber)
+        return calculateExpr(expr, index + 1, maxPriority, maxPriorityOperationIndex);
+
+    // else exprChild is operation
+    const currentPriority = exprChild.priority;
+    if (currentPriority > maxPriority)
+        return calculateExpr(expr, index + 1, currentPriority, index);
+
+    return calculateExpr(expr, index + 1, maxPriority, maxPriorityOperationIndex);
+};
+
+const makeCalculations = (exprStructure) => {
+    if (isNumber(exprStructure))
+        return exprStructure;
+
+    const exprStructureWithOutParentheses = exprStructure.map(
+        exprChild => (Array.isArray(exprChild) ? makeCalculations(exprChild) : exprChild)
+    );
+
+    return calculateExpr(exprStructureWithOutParentheses);
+};
 
 const calculateResult = (expression) => {
-    const makeCalculations = (exprStructure, index, maxPriority = -1, maxPriorityOperationIndex = null) => {
-        if (exprStructure.length === 1) {
-            return exprStructure[0];
-        }
+    const exprStructure = parseSymbols(expression);
 
-        if (index === exprStructure.length) {
-            const operation = exprStructure[maxPriorityOperationIndex];
+    const result = makeCalculations(exprStructure);
 
-            if (operation.hasOwnFullCalculateFunc) {
-                const newExprStructure = operation.calculate(
-                    exprStructure, makeCalculations, maxPriorityOperationIndex
-                );
-                return makeCalculations(newExprStructure, 0);
-            }
-
-            const leftNumIndex = maxPriorityOperationIndex - 1;
-            const isExistLeftNum = (leftNumIndex >= 0) && isNumber(exprStructure[leftNumIndex]);
-            const leftNum = isExistLeftNum ? exprStructure[leftNumIndex] : null;
-
-            const rightNumIndex = maxPriorityOperationIndex + 1;
-            const isExistRightNum = (rightNumIndex < index) && isNumber(exprStructure[rightNumIndex]);
-            const rightNum = isExistRightNum ? exprStructure[rightNumIndex] : null;
-
-            const result = operation.calculate(leftNum, rightNum);
-
-            const newExprStructure = [
-                ...exprStructure.slice(0, isExistLeftNum ? leftNumIndex : leftNumIndex + 1),
-                result,
-                ...exprStructure.slice(isExistRightNum ? rightNumIndex + 1 : rightNumIndex),
-            ];
-
-            return makeCalculations(newExprStructure, 0);
-        }
-
-        const exprChild = exprStructure[index];
-
-        const isExprChildNumber = isNumber(exprChild);
-        if (isExprChildNumber)
-            return makeCalculations(exprStructure, index + 1, maxPriority, maxPriorityOperationIndex);
-
-        // else exprChild is operation
-        const currentPriority = exprChild.priority;
-        if (currentPriority > maxPriority)
-            return makeCalculations(exprStructure, index + 1, currentPriority, index);
-
-        return makeCalculations(exprStructure, index + 1, maxPriority, maxPriorityOperationIndex);
-    };
-
-    const exprStructure = parse(expression);
-    const result = makeCalculations(exprStructure, 0);
     const formattedResult = result.toString().split('')
         .map(number => number === '.' ? ',' : number)
         .reduce((acc, number) => `${acc}${number}`);

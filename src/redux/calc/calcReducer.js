@@ -1,3 +1,4 @@
+import parenthesesOperations from '../../calculatorFunctional/operations/parentheses/parentheses';
 import calculateResult from './../../calculatorFunctional/calculateResult/calculateResult';
 import calcOperations from './../../calculatorFunctional/operations/calculateOperations/calcOperations';
 import defaultOperations from './../../calculatorFunctional/operations/defaultOperations/defaultOperations';
@@ -14,6 +15,7 @@ const initialState = {
     expression: null,
     numbersInputs,
     defaultOperations,
+    parenthesesOperations,
     calcOperations,
     error: null,
 }
