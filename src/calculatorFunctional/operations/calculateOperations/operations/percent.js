@@ -5,6 +5,14 @@ class Percent extends Operation {
     canBePlacedBeforeOtherOperation = true;
     hasOwnFullCalculateFunc = true;
 
+    parseCheck(exprStructure, index) {
+        super.parseCheck(exprStructure, index);
+
+        const { isExistRightNum } = this.getRightNum(exprStructure, index);
+
+        this.numOnRightMustNotBe(isExistRightNum);
+    }
+
     calculate(exprStructure, makeCalculations, operationIndex) {
         // checking operation before (on the left) this operation
         // there is should be only one operation with priority = 0 or no one at all
@@ -39,23 +47,8 @@ class Percent extends Operation {
 
         return newExprStructure;
     };
-
-    parseCheck(exprStructure, index) {
-        super.parseCheck(exprStructure, index);
-
-        const { isExistRightNum } = this.getRightNum(exprStructure, index);
-
-        this.rightNumMustNotBe(isExistRightNum);
-    }
-
-    // custom parse checkers
-    rightNumMustNotBe(isExistRightNum) {
-        if (isExistRightNum) {
-            throw new Error('The percent operation mustn\'t has a number on the right');
-        }
-    }
 }
 
-const percent = new Percent('%', 2);
+const percent = new Percent('percent', '%', 2);
 
 export default percent;

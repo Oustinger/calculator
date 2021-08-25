@@ -18,23 +18,11 @@ class SquareRoot extends Operation {
         const { isExistLeftNum } = this.getLeftNum(exprStructure, index);
         const { isExistRightNum } = this.getRightNum(exprStructure, index);
 
-        this.rightNumMustBe(isExistRightNum);
-        this.leftExprMustNotBeNum(isExistLeftNum);
-    }
-
-    // custom parse checkers
-    rightNumMustBe(isExistRightNum) {
-        if (!isExistRightNum) {
-            throw new Error('The square root operation need an argument on the right');
-        }
-    }
-    leftExprMustNotBeNum(isExistLeftNum) {
-        if (isExistLeftNum) {
-            throw new Error('The square root operation mustn\'t has any number on the left');
-        }
+        this.numOnRightMustBe(isExistRightNum);
+        this.exprOnLeftMustNotBeNum(isExistLeftNum);
     }
 }
 
-const squareRoot = new SquareRoot('√', 2);
+const squareRoot = new SquareRoot('square root', '√', 2);
 
 export default squareRoot;

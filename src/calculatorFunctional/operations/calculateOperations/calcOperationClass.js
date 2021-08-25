@@ -2,8 +2,9 @@ import CommonOperationClass from '../commonOperationClass';
 import isNumber from "../../../utils/isNumber";
 
 export default class Operation extends CommonOperationClass {
-    constructor(symbol, priority, exSymbols = []) {
+    constructor(operationName, symbol, priority, exSymbols = []) {
         super(symbol, exSymbols);
+        this.operationName = operationName;
         this.priority = priority;
     }
 
@@ -57,19 +58,21 @@ export default class Operation extends CommonOperationClass {
         const { nextExprElem, isExistNextExprElem } = this.getNextExprElem(exprStructure, index);
 
         if (
-            (!isExistPrevExprElem && !isExistNextExprElem) || (
-                !(
-                    isNumber(prevExprElem) ||
-                    this.canBePlacedAfterOtherOperation ||
-                    (nextExprElem && nextExprElem.canBePlacedBeforeOtherOperation)
-                ) && !(
-                    isNumber(nextExprElem) ||
-                    this.canBePlacedBeforeOtherOperation ||
-                    (nextExprElem && nextExprElem.canBePlacedAfterOtherOperation)
+            !(
+                (isExistPrevExprElem || isExistNextExprElem) && (
+                    (
+                        isNumber(prevExprElem) ||
+                        this.canBePlacedAfterOtherOperation ||
+                        (isExistNextExprElem && nextExprElem.canBePlacedBeforeOtherOperation)
+                    ) || (
+                        isNumber(nextExprElem) ||
+                        this.canBePlacedBeforeOtherOperation ||
+                        (isExistNextExprElem && nextExprElem.canBePlacedAfterOtherOperation)
+                    )
                 )
             )
         ) {
-            throw new Error('Arguments not found');
+            throw new Error(`Arguments for ${this.operationName} not found`);
         }
     }
     stepByStepOperations(exprStructure, index) {
@@ -87,7 +90,19 @@ export default class Operation extends CommonOperationClass {
                 )
             )
         ) {
-            throw new Error('There are operations that cannot be performed step by step');
+            throw new Error(`The ${this.operationName} cannot be performed before other operation`);
         }
+    }
+    numOnRightMustBe(isExistRightNum) {
+        if (!isExistRightNum)
+            throw new Error(`The ${this.operationName} operation need an argument on the right`);
+    }
+    numOnRightMustNotBe(isExistRightNum) {
+        if (isExistRightNum)
+            throw new Error(`The ${this.operationName} operation mustn't has a number on the right`);
+    }
+    exprOnLeftMustNotBeNum(isExistLeftNum) {
+        if (isExistLeftNum)
+            throw new Error(`The ${this.operationName} operation mustn't has any number on the left`);
     }
 };

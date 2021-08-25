@@ -9,30 +9,30 @@ import parse from './parse';
 describe('operations parse checkers', () => {
     test('argumentsNotFound', () => {
         const expression1 = '-';
-        expect(() => parse(expression1)).toThrow('Arguments not found');
+        expect(() => parse(expression1)).toThrow('Arguments for subtraction not found');
 
         const expression2 = '1%-';
-        expect(() => parse(expression2)).toThrow('Arguments not found');
+        expect(() => parse(expression2)).toThrow('Arguments for subtraction not found');
     });
     test('stepByStepOperations', () => {
         const expression = '2-+3';
-        expect(() => parse(expression)).toThrow('There are operations that cannot be performed step by step');
+        expect(() => parse(expression)).toThrow('The subtraction cannot be performed before other operation');
     });
     describe('squareRoot custom checkers', () => {
-        test('rightNumMustBe', () => {
+        test('numOnRightMustBe', () => {
             const expression1 = '2+√';
             expect(() => parse(expression1)).toThrow('The square root operation need an argument on the right');
 
             const expression2 = '2+√0';
             expect(() => parse(expression2)).not.toThrow('The square root operation need an argument on the right');
         });
-        test('leftExprMustNotBeNum', () => {
+        test('exprOnLeftMustNotBeNum', () => {
             const expression = '0√4';
             expect(() => parse(expression)).toThrow('The square root operation mustn\'t has any number on the left');
         });
     });
     describe('percent custom checkers', () => {
-        test('rightNumMustNotBe', () => {
+        test('numOnRightMustNotBe', () => {
             const expression = '10%0';
             expect(() => parse(expression)).toThrow('The percent operation mustn\'t has a number on the right');
         });

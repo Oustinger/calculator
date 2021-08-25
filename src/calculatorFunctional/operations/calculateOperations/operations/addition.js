@@ -12,6 +12,6 @@ class Addition extends Operation {
     }
 }
 
-const addition = new Addition('+', 0);
+const addition = new Addition('addition', '+', 0);
 
 export default addition;

@@ -26,6 +26,6 @@ class Division extends Operation {
     }
 }
 
-const division = new Division('/', 1);
+const division = new Division('division', '/', 1);
 
 export default division;
