@@ -1,5 +1,10 @@
 const arrayHelper = {
-    changeItemsOnItem(array, newItemValue, leftBorderIndex, rightBorderIndex = leftBorderIndex + 2) {
+    changeItemsOnItem <T> (
+        array: T[],
+        newItemValue: any,
+        leftBorderIndex: number,
+        rightBorderIndex: number = leftBorderIndex + 2,
+    ): T[] {
         return [
             ...array.slice(0, leftBorderIndex + 1),
             newItemValue,

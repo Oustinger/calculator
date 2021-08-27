@@ -1,7 +1,7 @@
 import CommonOperationClass from '../../commonOperationClass';
 
 class Comma extends CommonOperationClass {
-    getMathCorrectSymbol() {
+    getMathCorrectSymbol(): string {
         return this.exSymbols[0];
     }
 }

@@ -1,10 +1,13 @@
 import arrayHelper from '../../utils/arrayHelper';
 import isNumber from '../../utils/isNumber';
+import CalcOperationClass from '../operations/calculateOperations/calcOperationClass';
 import findOperationBySymbol from '../operations/calculateOperations/findOperationBySymbol';
 import findNumberInputBySymbol from '../operations/numbersInputs/findNumberInputBySymbol';
 import findParenthesis from '../operations/parentheses/findParenthesis';
 
-const checkParenthesisPairFinder = (count, checkType) => {
+export type ExprStructureType = Array<number | CalcOperationClass | ExprStructureType>;
+
+const checkParenthesisPairFinder = (count: number, checkType?: string): void => {
     const errorMessage = 'Some parenthesis pair not found';
 
     switch (checkType) {
@@ -25,25 +28,62 @@ const checkParenthesisPairFinder = (count, checkType) => {
     }
 }
 
-const parse = (symbols, index = 0, parenthesisPairFinder = 0, exprStructure = []) => {
-    if (index === symbols.length) {
+function hasStringExprStructure(
+    exprStructure: ExprStructureTypeWithString
+): exprStructure is ExprStructureTypeWithString {
+    return !!exprStructure.find(exprChild => {
+        if (exprChild instanceof Array)
+            return hasStringExprStructure(exprChild);
+
+        return typeof exprChild === 'string';
+    });
+};
+
+
+type ExprStructureTypeWithString = Array<number | CalcOperationClass | ExprStructureType | string>;
+
+interface ParseInterface {
+    symbols: Array<string>,
+    index: number,
+    parenthesisPairFinder: number,
+    exprStructure: ExprStructureTypeWithString,
+}
+
+const parse = (
+    symbols: Array<string>,
+    index: number = 0,
+    parenthesisPairFinder: number = 0,
+    exprStructure: ExprStructureTypeWithString = [],
+): ExprStructureType | ParseInterface => {
+
+    const symbol = symbols[index];
+
+    if (!symbol) {
         if (index === 0)
             throw new Error('First write the expression');
 
         checkParenthesisPairFinder(parenthesisPairFinder, 'result');
+
+        if (hasStringExprStructure(exprStructure))
+            throw new Error('Programming error: expression structure contain "string" in "parseSymbols" function');
         return exprStructure;
     }
-
-    const symbol = symbols[index];
 
     // parse parentheses
     checkParenthesisPairFinder(parenthesisPairFinder);
     const parenthesis = findParenthesis(symbol);
     if (parenthesis) {
         if (parenthesis.getType() === 'open') {
+            const parseResult = parse(symbols, index + 1, parenthesisPairFinder + 1);
+
+            if (Array.isArray(parseResult))
+                return parseResult;
+
             const {
-                closeParenthesisIndex, thisParenthesesExprStructure, newParenthesisPairFinder
-            } = parse(symbols, index + 1, parenthesisPairFinder + 1);
+                index: closeParenthesisIndex,
+                parenthesisPairFinder: newParenthesisPairFinder,
+                exprStructure: thisParenthesesExprStructure,
+            } = parseResult;
 
             const newExprStructure = arrayHelper.changeItemsOnItem(
                 exprStructure, thisParenthesesExprStructure, index - 1
@@ -56,9 +96,10 @@ const parse = (symbols, index = 0, parenthesisPairFinder = 0, exprStructure = []
         if (parenthesis.getType() === 'close') {
             checkParenthesisPairFinder(parenthesisPairFinder, 'onClose');
             return {
-                closeParenthesisIndex: index,
-                thisParenthesesExprStructure: exprStructure,
-                newParenthesisPairFinder: parenthesisPairFinder - 1,
+                symbols,
+                index,
+                parenthesisPairFinder: parenthesisPairFinder - 1,
+                exprStructure: exprStructure,
             };
         }
     }
@@ -69,11 +110,12 @@ const parse = (symbols, index = 0, parenthesisPairFinder = 0, exprStructure = []
         const correctSymbol = numberInput.getMathCorrectSymbol();
 
         const lastIndex = exprStructure.length - 1;
+        const isExistLastElement = exprStructure.length > 0;
         const lastElement = exprStructure[lastIndex];
         const nextSymbolIndex = index + 1;
         const isNextSymbolNumber = !!findNumberInputBySymbol(symbols[nextSymbolIndex]);
 
-        if (isNumber(Number.parseFloat(lastElement))) {
+        if (isExistLastElement && isNumber(Number.parseFloat(lastElement.toString()))) {
             const newLastElement = lastElement + correctSymbol;
             const exprStructureWithOutLastElem = exprStructure.slice(0, lastIndex);
 
@@ -102,7 +144,7 @@ const parse = (symbols, index = 0, parenthesisPairFinder = 0, exprStructure = []
     throw new Error(`Unknown symbol: " ${symbol} "`);
 };
 
-const checkByOperationsCheckers = (exprStructure, index = 0) => {
+const checkByOperationsCheckers = (exprStructure: ExprStructureType, index: number = 0): void => {
     if (index === exprStructure.length)
         return;
 
@@ -119,16 +161,15 @@ const checkByOperationsCheckers = (exprStructure, index = 0) => {
     checkByOperationsCheckers(exprStructure, index + 1);
 };
 
-const parseSymbols = (symbols) => {
+const parseSymbols = (symbols: string): ExprStructureType => {
     const exprStructure = parse(symbols.split(''));
 
-    try {
-        checkByOperationsCheckers(exprStructure);
+    if (!Array.isArray(exprStructure))
+        throw new Error('Programming error: expression structure is not an array in "parseSymbols" function');
 
-        return exprStructure;
-    } catch (error) {
-        throw error;
-    }
+    checkByOperationsCheckers(exprStructure);
+
+    return exprStructure;
 };
 
 export default parseSymbols;

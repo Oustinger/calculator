@@ -11,33 +11,6 @@ test('empty expression', () => {
 
     expect(() => parseSymbols(expression)).toThrow('First write the expression');
 });
-describe('expressions with parentheses', () => {
-    test('common', () => {
-        const expression = '2×(1+4)';
-
-        const exprStructure = parseSymbols(expression);
-
-        expect(exprStructure).toStrictEqual([2, multiplication, [1, addition, 4]]);
-    });
-    test('empty parentheses', () => {
-        const expression = '()';
-
-        const exprStructure = parseSymbols(expression);
-
-        expect(exprStructure).toStrictEqual([[]]);
-    });
-    test('without pair', () => {
-        const expression1 = '(';
-        const expression2 = ')';
-        const expression3 = '(()';
-        const expression4 = '())';
-
-        expect(() => parseSymbols(expression1)).toThrow('Some parenthesis pair not found');
-        expect(() => parseSymbols(expression2)).toThrow('Some parenthesis pair not found');
-        expect(() => parseSymbols(expression3)).toThrow('Some parenthesis pair not found');
-        expect(() => parseSymbols(expression4)).toThrow('Some parenthesis pair not found');
-    });
-});
 describe('operations parse checkers', () => {
     test('argumentsNotFound', () => {
         const expression1 = '-';
@@ -74,6 +47,33 @@ describe('operations parse checkers', () => {
             const expression = '10/0';
             expect(() => parseSymbols(expression)).toThrow('You cannot divide by zero');
         });
+    });
+});
+describe('expressions with parentheses', () => {
+    test('common', () => {
+        const expression = '2×(1+4)';
+
+        const exprStructure = parseSymbols(expression);
+
+        expect(exprStructure).toStrictEqual([2, multiplication, [1, addition, 4]]);
+    });
+    test('empty parentheses', () => {
+        const expression = '()';
+
+        const exprStructure = parseSymbols(expression);
+
+        expect(exprStructure).toStrictEqual([[]]);
+    });
+    test('without pair', () => {
+        const expression1 = '(';
+        const expression2 = ')';
+        const expression3 = '(()';
+        const expression4 = '())';
+
+        expect(() => parseSymbols(expression1)).toThrow('Some parenthesis pair not found');
+        expect(() => parseSymbols(expression2)).toThrow('Some parenthesis pair not found');
+        expect(() => parseSymbols(expression3)).toThrow('Some parenthesis pair not found');
+        expect(() => parseSymbols(expression4)).toThrow('Some parenthesis pair not found');
     });
 });
 test('huge expression', () => {
