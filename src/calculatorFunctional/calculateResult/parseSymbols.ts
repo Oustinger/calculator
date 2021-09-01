@@ -59,9 +59,6 @@ const parse = (
     const symbol = symbols[index];
 
     if (!symbol) {
-        if (index === 0)
-            throw new Error('First write the expression');
-
         checkParenthesisPairFinder(parenthesisPairFinder, 'result');
 
         if (hasStringExprStructure(exprStructure))

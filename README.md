@@ -20,3 +20,7 @@ Static analyze will run with it and you can see any lint errors in the console.
 ### Tests
 
 Also you can run test with the `npm test` command and see the result in your terminal.
+
+## App screenshot
+
+![App screenshot image](https://i.imgur.com/qJHkom0.png)
