@@ -3,7 +3,7 @@ import { CommonOperationInterface } from '../commonOperationClass';
 import calculate from './operations/calculate';
 import clean from './operations/clean';
 
-interface DefaultOperationsInterface {
+export interface DefaultOperationsInterface {
     [key: string]: CommonOperationInterface,
 }
 

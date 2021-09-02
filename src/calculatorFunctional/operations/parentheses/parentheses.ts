@@ -2,7 +2,7 @@ import closeParenthesis from "./operations/closeParenthesis";
 import openParenthesis from "./operations/openParenthesis";
 import { ParenthesisInterface } from "./parenthesisClass";
 
-interface ParenthesesInterface {
+export interface ParenthesesInterface {
     [key: string]: ParenthesisInterface,
 }
 

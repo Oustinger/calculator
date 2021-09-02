@@ -12,7 +12,7 @@ import zero from './numbers/default/zero';
 import doubleZero from './numbers/doubleZero';
 import comma from './otherInputs/comma';
 
-interface NumbersInputsInterface {
+export interface NumbersInputsInterface {
     [key: string]: CommonOperationInterface,
 }
 
