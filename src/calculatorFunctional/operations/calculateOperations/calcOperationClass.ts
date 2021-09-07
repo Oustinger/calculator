@@ -50,7 +50,7 @@ export interface CalcOperationClassInterface extends CommonOperationInterface {
     numOnRightMustNotBe(isExistLeftNum: boolean | undefined): void;
     exprOnLeftMustNotBeNum(isExistLeftNum: boolean | undefined): void;
 
-    calculate(params: any): ExpressionType,
+    calculate(params: { [key: string]: any }): ExpressionType;
 }
 
 export default class CalcOperationClass extends CommonOperationClass implements CalcOperationClassInterface {
@@ -197,8 +197,9 @@ export default class CalcOperationClass extends CommonOperationClass implements 
     exprOnLeftMustNotBeNum(isExistLeftNum: boolean | undefined): void {
         if (isExistLeftNum) throw new Error(`The ${this.operationName} operation mustn't has any number on the left`);
     }
+
+    calculate(params: { [key: string]: any }): ExpressionType {
+        const defaultExpr = [0];
+        return defaultExpr;
+    }
 }
-
-
-    calculate(params: any): ExpressionType { return []; }
-};
