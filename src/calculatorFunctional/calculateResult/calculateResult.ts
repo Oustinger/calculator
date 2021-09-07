@@ -22,22 +22,12 @@ const calculateExprDefValues: CalculateExprInterface = {
 };
 
 const calculateExpr = (params: CalculateExprInterface): number => {
-    const setDefaultValues = (params: CalculateExprInterface): CalculateExprInterface => (
-        Object.entries(calculateExprDefValues)
-            .reduce((acc, [key, defValue]) => {
-                if (typeof params[key] === 'undefined') {
-                    return { ...acc, [key]: defValue }
-                }
-                return { ...acc, [key]: params[key] }
-            }, { expr: params.expr })
-    );
-
     const {
         expr,
         index,
         maxPriority,
         maxPriorityOperationIndex,
-    } = setDefaultValues(params);
+    } = { ...calculateExprDefValues, ...params };
 
     if (typeof index === 'undefined'
         || typeof maxPriority === 'undefined'
