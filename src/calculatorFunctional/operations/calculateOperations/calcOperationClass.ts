@@ -1,42 +1,54 @@
-import isNumber from "../../../utils/isNumber";
-import { ExpressionType } from "../../calculateResult/calculateResult";
-import { ExprStructureType } from "../../calculateResult/parseSymbols";
+import isNumber from '../../../utils/isNumber';
+import { ExpressionType } from '../../calculateResult/calculateResult';
+import { ExprStructureType } from '../../calculateResult/parseSymbols';
 import CommonOperationClass, { CommonOperationInterface } from '../commonOperationClass';
 
 export interface CalcOperationClassInterface extends CommonOperationInterface {
-    readonly operationName: string,
-    readonly symbol: string,
-    readonly priority: number,
-    readonly exSymbols?: Array<string>,
+    readonly operationName: string;
+    readonly symbol: string;
+    readonly priority: number;
+    readonly exSymbols?: Array<string>;
 
-    readonly canBePlacedAfterOtherOperation: boolean,
-    readonly canBePlacedBeforeOtherOperation: boolean,
-    readonly hasOwnFullCalculateFunc: boolean,
+    readonly canBePlacedAfterOtherOperation: boolean;
+    readonly canBePlacedBeforeOtherOperation: boolean;
+    readonly hasOwnFullCalculateFunc: boolean;
 
-    parseCheck(exprStructure: ExprStructureType, index: number): void,
+    parseCheck(exprStructure: ExprStructureType, index: number): void;
 
-    getRightNum(exprStructure: ExprStructureType, index: number): {
-        rightNum?: number | CalcOperationClass | ExprStructureType,
-        isExistRightNum?: boolean,
-    },
-    getLeftNum(exprStructure: ExprStructureType, index: number): {
-        leftNum?: number | CalcOperationClass | ExprStructureType,
-        isExistLeftNum?: boolean,
-    },
-    getPrevExprElem(exprStructure: ExprStructureType, index: number): {
-        prevExprElem?: number | CalcOperationClass | ExprStructureType,
-        isExistPrevExprElem?: boolean,
-    },
-    getNextExprElem(exprStructure: ExprStructureType, index: number): {
-        nextExprElem?: number | CalcOperationClass | ExprStructureType,
-        isExistNextExprElem?: boolean,
-    },
+    getRightNum(
+        exprStructure: ExprStructureType,
+        index: number
+    ): {
+        rightNum?: number | CalcOperationClass | ExprStructureType;
+        isExistRightNum?: boolean;
+    };
+    getLeftNum(
+        exprStructure: ExprStructureType,
+        index: number
+    ): {
+        leftNum?: number | CalcOperationClass | ExprStructureType;
+        isExistLeftNum?: boolean;
+    };
+    getPrevExprElem(
+        exprStructure: ExprStructureType,
+        index: number
+    ): {
+        prevExprElem?: number | CalcOperationClass | ExprStructureType;
+        isExistPrevExprElem?: boolean;
+    };
+    getNextExprElem(
+        exprStructure: ExprStructureType,
+        index: number
+    ): {
+        nextExprElem?: number | CalcOperationClass | ExprStructureType;
+        isExistNextExprElem?: boolean;
+    };
 
-    argumentsNotFound(exprStructure: ExprStructureType, index: number): void,
-    stepByStepOperations(exprStructure: ExprStructureType, index: number): void,
-    numOnRightMustBe(isExistLeftNum: boolean | undefined): void,
-    numOnRightMustNotBe(isExistLeftNum: boolean | undefined): void,
-    exprOnLeftMustNotBeNum(isExistLeftNum: boolean | undefined): void,
+    argumentsNotFound(exprStructure: ExprStructureType, index: number): void;
+    stepByStepOperations(exprStructure: ExprStructureType, index: number): void;
+    numOnRightMustBe(isExistLeftNum: boolean | undefined): void;
+    numOnRightMustNotBe(isExistLeftNum: boolean | undefined): void;
+    exprOnLeftMustNotBeNum(isExistLeftNum: boolean | undefined): void;
 
     calculate(params: any): ExpressionType,
 }
@@ -46,7 +58,7 @@ export default class CalcOperationClass extends CommonOperationClass implements 
         readonly operationName: string,
         readonly symbol: string,
         readonly priority: number,
-        readonly exSymbols: Array<string> = [],
+        readonly exSymbols: Array<string> = []
     ) {
         super(symbol, exSymbols);
         this.operationName = operationName;
@@ -58,17 +70,19 @@ export default class CalcOperationClass extends CommonOperationClass implements 
 
     readonly hasOwnFullCalculateFunc: boolean = false;
 
-
     parseCheck(exprStructure: ExprStructureType, index: number): void {
         this.argumentsNotFound(exprStructure, index);
     }
 
-    getRightNum(exprStructure: ExprStructureType, index: number): {
-        rightNum?: number | CalcOperationClass | ExprStructureType,
-        isExistRightNum?: boolean,
+    getRightNum(
+        exprStructure: ExprStructureType,
+        index: number
+    ): {
+        rightNum?: number | CalcOperationClass | ExprStructureType;
+        isExistRightNum?: boolean;
     } {
         const rightNumIndex = index + 1;
-        const isExistRightNum = (rightNumIndex < exprStructure.length) && isNumber(exprStructure[rightNumIndex]);
+        const isExistRightNum = rightNumIndex < exprStructure.length && isNumber(exprStructure[rightNumIndex]);
 
         if (isExistRightNum) {
             const rightNum = exprStructure[rightNumIndex];
@@ -79,12 +93,15 @@ export default class CalcOperationClass extends CommonOperationClass implements 
         return { isExistRightNum };
     }
 
-    getLeftNum(exprStructure: ExprStructureType, index: number): {
-        leftNum?: number | CalcOperationClass | ExprStructureType,
-        isExistLeftNum?: boolean,
+    getLeftNum(
+        exprStructure: ExprStructureType,
+        index: number
+    ): {
+        leftNum?: number | CalcOperationClass | ExprStructureType;
+        isExistLeftNum?: boolean;
     } {
         const leftNumIndex = index - 1;
-        const isExistLeftNum = (leftNumIndex >= 0) && isNumber(exprStructure[leftNumIndex]);
+        const isExistLeftNum = leftNumIndex >= 0 && isNumber(exprStructure[leftNumIndex]);
 
         if (isExistLeftNum) {
             const leftNum = exprStructure[leftNumIndex];
@@ -95,9 +112,12 @@ export default class CalcOperationClass extends CommonOperationClass implements 
         return { isExistLeftNum };
     }
 
-    getPrevExprElem(exprStructure: ExprStructureType, index: number): {
-        prevExprElem?: number | CalcOperationClass | ExprStructureType,
-        isExistPrevExprElem?: boolean,
+    getPrevExprElem(
+        exprStructure: ExprStructureType,
+        index: number
+    ): {
+        prevExprElem?: number | CalcOperationClass | ExprStructureType;
+        isExistPrevExprElem?: boolean;
     } {
         const prevExprElemIndex = index - 1;
 
@@ -112,16 +132,18 @@ export default class CalcOperationClass extends CommonOperationClass implements 
         return { isExistPrevExprElem };
     }
 
-    getNextExprElem(exprStructure: ExprStructureType, index: number): {
-        nextExprElem?: number | CalcOperationClass | ExprStructureType,
-        isExistNextExprElem?: boolean,
+    getNextExprElem(
+        exprStructure: ExprStructureType,
+        index: number
+    ): {
+        nextExprElem?: number | CalcOperationClass | ExprStructureType;
+        isExistNextExprElem?: boolean;
     } {
         const nextExprElemIndex = index + 1;
 
         const isExistNextExprElem = nextExprElemIndex < exprStructure.length;
 
-        if (isExistNextExprElem)
-            return { nextExprElem: exprStructure[nextExprElemIndex], isExistNextExprElem };
+        if (isExistNextExprElem) return { nextExprElem: exprStructure[nextExprElemIndex], isExistNextExprElem };
 
         return { isExistNextExprElem };
     }
@@ -133,25 +155,17 @@ export default class CalcOperationClass extends CommonOperationClass implements 
 
         if (
             !(
-                (isExistPrevExprElem || isExistNextExprElem) && (
-                    (
-                        isNumber(prevExprElem)
-                        || this.canBePlacedAfterOtherOperation
-                        || (
-                            isExistNextExprElem
-                            && nextExprElem instanceof CalcOperationClass
-                            && nextExprElem.canBePlacedBeforeOtherOperation
-                        )
-                    ) || (
-                        isNumber(nextExprElem)
-                        || this.canBePlacedBeforeOtherOperation
-                        || (
-                            isExistNextExprElem
-                            && nextExprElem instanceof CalcOperationClass
-                            && nextExprElem.canBePlacedAfterOtherOperation
-                        )
-                    )
-                )
+                (isExistPrevExprElem || isExistNextExprElem) &&
+                (isNumber(prevExprElem) ||
+                    this.canBePlacedAfterOtherOperation ||
+                    (isExistNextExprElem &&
+                        nextExprElem instanceof CalcOperationClass &&
+                        nextExprElem.canBePlacedBeforeOtherOperation) ||
+                    isNumber(nextExprElem) ||
+                    this.canBePlacedBeforeOtherOperation ||
+                    (isExistNextExprElem &&
+                        nextExprElem instanceof CalcOperationClass &&
+                        nextExprElem.canBePlacedAfterOtherOperation))
             )
         ) {
             throw new Error(`Arguments for ${this.operationName} not found`);
@@ -162,33 +176,28 @@ export default class CalcOperationClass extends CommonOperationClass implements 
         const { nextExprElem, isExistNextExprElem } = this.getNextExprElem(exprStructure, index);
 
         if (
-            (
-                isExistPrevExprElem
-                && prevExprElem instanceof CalcOperationClass
-                && !prevExprElem.canBePlacedBeforeOtherOperation
-                && !this.canBePlacedAfterOtherOperation
-            ) || (
-                isExistNextExprElem
-                && nextExprElem instanceof CalcOperationClass
-                && !nextExprElem.canBePlacedAfterOtherOperation
-                && !this.canBePlacedBeforeOtherOperation
-            )
+            (isExistPrevExprElem &&
+                prevExprElem instanceof CalcOperationClass &&
+                !prevExprElem.canBePlacedBeforeOtherOperation &&
+                !this.canBePlacedAfterOtherOperation) ||
+            (isExistNextExprElem &&
+                nextExprElem instanceof CalcOperationClass &&
+                !nextExprElem.canBePlacedAfterOtherOperation &&
+                !this.canBePlacedBeforeOtherOperation)
         ) {
             throw new Error(`The ${this.operationName} cannot be performed before other operation`);
         }
     }
     numOnRightMustBe(isExistRightNum: boolean | undefined): void {
-        if (!isExistRightNum)
-            throw new Error(`The ${this.operationName} operation need an argument on the right`);
+        if (!isExistRightNum) throw new Error(`The ${this.operationName} operation need an argument on the right`);
     }
     numOnRightMustNotBe(isExistRightNum: boolean | undefined): void {
-        if (isExistRightNum)
-            throw new Error(`The ${this.operationName} operation mustn't has a number on the right`);
+        if (isExistRightNum) throw new Error(`The ${this.operationName} operation mustn't has a number on the right`);
     }
     exprOnLeftMustNotBeNum(isExistLeftNum: boolean | undefined): void {
-        if (isExistLeftNum)
-            throw new Error(`The ${this.operationName} operation mustn't has any number on the left`);
+        if (isExistLeftNum) throw new Error(`The ${this.operationName} operation mustn't has any number on the left`);
     }
+}
 
 
     calculate(params: any): ExpressionType { return []; }
