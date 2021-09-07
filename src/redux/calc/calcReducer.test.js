@@ -4,7 +4,7 @@ const state = {
     input: '22+3',
     expression: null,
     error: 'Some error',
-}
+};
 
 test('input should be set', () => {
     const newInputValue = '1+1';

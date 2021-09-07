@@ -3,16 +3,15 @@ import isNumber from '../../utils/isNumber';
 import CalcOperationClass from '../operations/calculateOperations/calcOperationClass';
 import parseSymbols, { ExprStructureType } from './parseSymbols';
 
-
 export type ExpressionType = Array<number | CalcOperationClass>;
 
 export interface CalculateExprInterface {
-    expr: ExpressionType,
-    index?: number,
-    maxPriority?: number,
-    maxPriorityOperationIndex?: number | null,
-    [key: string]: ExpressionType | number | null | undefined,
-};
+    expr: ExpressionType;
+    index?: number;
+    maxPriority?: number;
+    maxPriorityOperationIndex?: number | null;
+    [key: string]: ExpressionType | number | null | undefined;
+}
 
 const calculateExprDefValues: CalculateExprInterface = {
     expr: [],
@@ -22,16 +21,12 @@ const calculateExprDefValues: CalculateExprInterface = {
 };
 
 const calculateExpr = (params: CalculateExprInterface): number => {
-    const {
-        expr,
-        index,
-        maxPriority,
-        maxPriorityOperationIndex,
-    } = { ...calculateExprDefValues, ...params };
+    const { expr, index, maxPriority, maxPriorityOperationIndex } = { ...calculateExprDefValues, ...params };
 
-    if (typeof index === 'undefined'
-        || typeof maxPriority === 'undefined'
-        || typeof maxPriorityOperationIndex === 'undefined'
+    if (
+        typeof index === 'undefined' ||
+        typeof maxPriority === 'undefined' ||
+        typeof maxPriorityOperationIndex === 'undefined'
     ) {
         throw new Error('Programming error: default values didn\'t set in "calculateExpr" function');
     }
@@ -55,18 +50,20 @@ const calculateExpr = (params: CalculateExprInterface): number => {
             throw new Error('Programming error: the number took for the operation in "calculateExpr" function');
 
         if (operation.hasOwnFullCalculateFunc) {
-            const newExprStructure = operation.calculate(
-                { expr, calculateExpr, operationIndex: maxPriorityOperationIndex }
-            );
+            const newExprStructure = operation.calculate({
+                expr,
+                calculateExpr,
+                operationIndex: maxPriorityOperationIndex,
+            });
             return calculateExpr({ expr: newExprStructure, index: 0 });
         }
 
         const leftNumIndex = maxPriorityOperationIndex - 1;
-        const isExistLeftNum = (leftNumIndex >= 0) && isNumber(expr[leftNumIndex]);
+        const isExistLeftNum = leftNumIndex >= 0 && isNumber(expr[leftNumIndex]);
         const leftArg = isExistLeftNum ? expr[leftNumIndex] : null;
 
         const rightNumIndex = maxPriorityOperationIndex + 1;
-        const isExistRightNum = (rightNumIndex < index) && isNumber(expr[rightNumIndex]);
+        const isExistRightNum = rightNumIndex < index && isNumber(expr[rightNumIndex]);
         const rightArg = isExistRightNum ? expr[rightNumIndex] : null;
 
         const [result] = operation.calculate({ leftArg, rightArg });
@@ -80,27 +77,27 @@ const calculateExpr = (params: CalculateExprInterface): number => {
 
     const exprChild = expr[index];
 
-    if (isNumber(exprChild))
-        return calculateExpr({ expr, index: index + 1, maxPriority, maxPriorityOperationIndex });
+    if (isNumber(exprChild)) return calculateExpr({ expr, index: index + 1, maxPriority, maxPriorityOperationIndex });
 
     // else exprChild is operation
     const currentPriority = exprChild.priority;
     if (currentPriority > maxPriority)
-        return calculateExpr(
-            { expr, index: index + 1, maxPriority: currentPriority, maxPriorityOperationIndex: index }
-        );
+        return calculateExpr({
+            expr,
+            index: index + 1,
+            maxPriority: currentPriority,
+            maxPriorityOperationIndex: index,
+        });
 
     return calculateExpr({ expr, index: index + 1, maxPriority, maxPriorityOperationIndex });
 };
 
 const makeCalculations = (exprStructure: ExprStructureType): number => {
-    if (isNumber(exprStructure))
-        return exprStructure;
+    if (isNumber(exprStructure)) return exprStructure;
 
     const exprStructureWithOutParentheses: ExpressionType = exprStructure.map(
-        (exprChild: number | CalcOperationClass | ExprStructureType): number | CalcOperationClass => (
+        (exprChild: number | CalcOperationClass | ExprStructureType): number | CalcOperationClass =>
             Array.isArray(exprChild) ? makeCalculations(exprChild) : exprChild
-        )
     );
 
     return calculateExpr({ expr: exprStructureWithOutParentheses });
@@ -112,8 +109,10 @@ const calculateResult = (expression: string): string => {
 
         const result: number = makeCalculations(exprStructure);
 
-        const formattedResult = result.toString().split('')
-            .map(number => number === '.' ? ',' : number)
+        const formattedResult = result
+            .toString()
+            .split('')
+            .map((number) => (number === '.' ? ',' : number))
             .reduce((acc, number) => `${acc}${number}`);
 
         return formattedResult;

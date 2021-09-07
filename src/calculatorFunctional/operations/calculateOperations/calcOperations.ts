@@ -7,12 +7,16 @@ import squareRoot from './operations/squareRoot';
 import subtraction from './operations/subtraction';
 
 export interface CalcOperationsInterface {
-    [key: string]: CalcOperationClassInterface,
-};
+    [key: string]: CalcOperationClassInterface;
+}
 
 const calcOperations = {
-    addition, division, multiplication,
-    percent, squareRoot, subtraction,
+    addition,
+    division,
+    multiplication,
+    percent,
+    squareRoot,
+    subtraction,
 };
 
 export default calcOperations;

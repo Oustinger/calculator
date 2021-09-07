@@ -29,17 +29,21 @@ describe('operations parse checkers', () => {
             expect(() => parseSymbols(expression1)).toThrow('The square root operation need an argument on the right');
 
             const expression2 = '2+√0';
-            expect(() => parseSymbols(expression2)).not.toThrow('The square root operation need an argument on the right');
+            expect(() => parseSymbols(expression2)).not.toThrow(
+                'The square root operation need an argument on the right'
+            );
         });
         test('exprOnLeftMustNotBeNum', () => {
             const expression = '0√4';
-            expect(() => parseSymbols(expression)).toThrow('The square root operation mustn\'t has any number on the left');
+            expect(() => parseSymbols(expression)).toThrow(
+                "The square root operation mustn't has any number on the left"
+            );
         });
     });
     describe('percent custom checkers', () => {
         test('numOnRightMustNotBe', () => {
             const expression = '10%0';
-            expect(() => parseSymbols(expression)).toThrow('The percent operation mustn\'t has a number on the right');
+            expect(() => parseSymbols(expression)).toThrow("The percent operation mustn't has a number on the right");
         });
     });
     describe('division custom checkers', () => {
@@ -82,14 +86,26 @@ test('huge expression', () => {
     const exprStructure = parseSymbols(expression);
 
     expect(exprStructure).toEqual([
-        subtraction, squareRoot, 0, addition,
-        6, addition, 4, division, squareRoot,
-        4, multiplication, 2, addition, 50, percent,
-        subtraction, 10, division, 2,
-        addition, [
-            [10, multiplication, 5, subtraction, 20, percent],
-            division,
-            [12, division, 6],
-        ],
+        subtraction,
+        squareRoot,
+        0,
+        addition,
+        6,
+        addition,
+        4,
+        division,
+        squareRoot,
+        4,
+        multiplication,
+        2,
+        addition,
+        50,
+        percent,
+        subtraction,
+        10,
+        division,
+        2,
+        addition,
+        [[10, multiplication, 5, subtraction, 20, percent], division, [12, division, 6]],
     ]);
 });

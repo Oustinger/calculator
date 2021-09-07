@@ -1,7 +1,7 @@
 html {
     --color: #fff;
-    --color-contrast: #2A5594;
-    --color-bg-page: linear-gradient(to bottom right, #FFA1A1, #FF7B7B);
+    --color-contrast: #2a5594;
+    --color-bg-page: linear-gradient(to bottom right, #ffa1a1, #ff7b7b);
     --font-main: 'Quicksand', sans-serif;
     --font-size: 35px;
     color: var(--color);

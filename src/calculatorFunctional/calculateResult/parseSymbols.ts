@@ -12,55 +12,48 @@ const checkParenthesisPairFinder = (count: number, checkType?: string): void => 
 
     switch (checkType) {
         case 'result': {
-            if (count !== 0)
-                throw new Error(errorMessage);
+            if (count !== 0) throw new Error(errorMessage);
             break;
         }
         case 'onClose': {
-            if (!(count > 0))
-                throw new Error(errorMessage);
+            if (!(count > 0)) throw new Error(errorMessage);
             break;
         }
         default: {
-            if (count < 0)
-                throw new Error(errorMessage);
+            if (count < 0) throw new Error(errorMessage);
         }
     }
-}
+};
 
 function hasStringExprStructure(
     exprStructure: ExprStructureTypeWithString
 ): exprStructure is ExprStructureTypeWithString {
-    return !!exprStructure.find(exprChild => {
-        if (exprChild instanceof Array)
-            return hasStringExprStructure(exprChild);
+    return !!exprStructure.find((exprChild) => {
+        if (exprChild instanceof Array) return hasStringExprStructure(exprChild);
 
         return typeof exprChild === 'string';
     });
-};
-
+}
 
 type ExprStructureTypeWithString = Array<number | CalcOperationClass | ExprStructureType | string>;
 
 interface ParseInterface {
-    symbols: Array<string>,
-    index: number,
-    parenthesisPairFinder: number,
-    exprStructure: ExprStructureTypeWithString,
+    symbols: Array<string>;
+    index: number;
+    parenthesisPairFinder: number;
+    exprStructure: ExprStructureTypeWithString;
 }
 
 const parse = (
     symbols: Array<string>,
     index: number = 0,
     parenthesisPairFinder: number = 0,
-    exprStructure: ExprStructureTypeWithString = [],
+    exprStructure: ExprStructureTypeWithString = []
 ): ExprStructureType | ParseInterface => {
-
     const symbol = symbols[index];
 
     if (!symbol) {
-        if (index === 0)
-            throw new Error('First write the expression');
+        if (index === 0) throw new Error('First write the expression');
 
         checkParenthesisPairFinder(parenthesisPairFinder, 'result');
 
@@ -77,8 +70,7 @@ const parse = (
         if (parenthesis.getType() === 'open') {
             const parseResult = parse(symbols, index + 1, parenthesisPairFinder + 1);
 
-            if (Array.isArray(parseResult))
-                return parseResult;
+            if (Array.isArray(parseResult)) return parseResult;
 
             const {
                 index: closeParenthesisIndex,
@@ -87,12 +79,12 @@ const parse = (
             } = parseResult;
 
             const newExprStructure = arrayHelper.changeItemsOnItem(
-                exprStructure, thisParenthesesExprStructure, index - 1
+                exprStructure,
+                thisParenthesesExprStructure,
+                index - 1
             );
 
-            return parse(
-                symbols, closeParenthesisIndex + 1, newParenthesisPairFinder, newExprStructure
-            );
+            return parse(symbols, closeParenthesisIndex + 1, newParenthesisPairFinder, newExprStructure);
         }
         if (parenthesis.getType() === 'close') {
             checkParenthesisPairFinder(parenthesisPairFinder, 'onClose');
@@ -121,33 +113,32 @@ const parse = (
             const exprStructureWithOutLastElem = exprStructure.slice(0, lastIndex);
 
             if (!isNextSymbolNumber)
-                return parse(
-                    symbols, index + 1, parenthesisPairFinder,
-                    [...exprStructureWithOutLastElem, Number.parseFloat(newLastElement)],
-                );
+                return parse(symbols, index + 1, parenthesisPairFinder, [
+                    ...exprStructureWithOutLastElem,
+                    Number.parseFloat(newLastElement),
+                ]);
 
             return parse(symbols, index + 1, parenthesisPairFinder, [...exprStructureWithOutLastElem, newLastElement]);
         }
 
         if (!isNextSymbolNumber)
-            return parse(
-                symbols, index + 1, parenthesisPairFinder, [...exprStructure, Number.parseFloat(correctSymbol)]
-            );
+            return parse(symbols, index + 1, parenthesisPairFinder, [
+                ...exprStructure,
+                Number.parseFloat(correctSymbol),
+            ]);
 
         return parse(symbols, index + 1, parenthesisPairFinder, [...exprStructure, correctSymbol]);
     }
 
     // parse calc operations
     const operation = findOperationBySymbol(symbol);
-    if (operation)
-        return parse(symbols, index + 1, parenthesisPairFinder, [...exprStructure, operation]);
+    if (operation) return parse(symbols, index + 1, parenthesisPairFinder, [...exprStructure, operation]);
 
     throw new Error(`Unknown symbol: " ${symbol} "`);
 };
 
 const checkByOperationsCheckers = (exprStructure: ExprStructureType, index: number = 0): void => {
-    if (index === exprStructure.length)
-        return;
+    if (index === exprStructure.length) return;
 
     const element = exprStructure[index];
 
@@ -156,8 +147,7 @@ const checkByOperationsCheckers = (exprStructure: ExprStructureType, index: numb
         return;
     }
 
-    if (!isNumber(element))
-        element.parseCheck(exprStructure, index);
+    if (!isNumber(element)) element.parseCheck(exprStructure, index);
 
     checkByOperationsCheckers(exprStructure, index + 1);
 };

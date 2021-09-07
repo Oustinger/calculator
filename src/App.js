@@ -9,31 +9,33 @@ import {
     getCalcOperations,
     getDefaultOperations,
     getError,
-    getExpression, getInput, getNumbersInputs, getParenthesesOperations
+    getExpression,
+    getInput,
+    getNumbersInputs,
+    getParenthesesOperations,
 } from './redux/calc/calcSelectors';
 import store from './redux/store';
 
-const setFunctions = (operations, inputFuncs) => (
-    Object.entries(operations)
-        .reduce((acc, [operationName, operation]) => {
-            const func = Object.entries(inputFuncs)
-                .find(([funcName]) => funcName === operation.funcName)[1];
+const setFunctions = (operations, inputFuncs) =>
+    Object.entries(operations).reduce((acc, [operationName, operation]) => {
+        const func = Object.entries(inputFuncs).find(([funcName]) => funcName === operation.funcName)[1];
 
-            const newOperation = { ...operation, func };
+        const newOperation = { ...operation, func };
 
-            return { ...acc, [operationName]: newOperation };
-        }, {})
-);
+        return { ...acc, [operationName]: newOperation };
+    }, {});
 
 const getOperationsByBlocks = (defaultOperations, calcOperations, numbersInputs, parenthesesOperations, inputFuncs) => {
     const { clean, calculate } = setFunctions(defaultOperations, inputFuncs);
     const { openParenthesis, closeParenthesis } = setFunctions(parenthesesOperations, inputFuncs);
-    const {
-        addition, division, multiplication, percent, squareRoot, subtraction,
-    } = setFunctions(calcOperations, inputFuncs);
-    const {
-        zero, one, two, three, four, five, six, seven, eight, nine, doubleZero, comma,
-    } = setFunctions(numbersInputs, inputFuncs);
+    const { addition, division, multiplication, percent, squareRoot, subtraction } = setFunctions(
+        calcOperations,
+        inputFuncs
+    );
+    const { zero, one, two, three, four, five, six, seven, eight, nine, doubleZero, comma } = setFunctions(
+        numbersInputs,
+        inputFuncs
+    );
 
     const topLineBlockOpers = [clean, squareRoot, percent];
     const rightColumnBlockOpers = [division, multiplication, subtraction, addition, calculate];
@@ -43,17 +45,18 @@ const getOperationsByBlocks = (defaultOperations, calcOperations, numbersInputs,
     return [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers, noBlockOpers];
 };
 
-const respondOnKeyUp = (key, operations) => (
-    Object.values(operations)
-        .forEach(operation => (
-            (operation.symbol === key || operation.exSymbols.includes(key)) ? operation.func(operation.symbol) : null
-        ))
-);
+const respondOnKeyUp = (key, operations) =>
+    Object.values(operations).forEach((operation) =>
+        operation.symbol === key || operation.exSymbols.includes(key) ? operation.func(operation.symbol) : null
+    );
 
 const AppComponent = (props) => {
     const [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers, noBlockOpers] = getOperationsByBlocks(
-        props.defaultOperations, props.calcOperations, props.numbersInputs,
-        props.parenthesesOperations, props.inputFuncs,
+        props.defaultOperations,
+        props.calcOperations,
+        props.numbersInputs,
+        props.parenthesesOperations,
+        props.inputFuncs
     );
 
     const appWrapperRef = React.createRef();
@@ -92,12 +95,14 @@ const AppComponent = (props) => {
             <div className={styles.app}>
                 <div className={styles.app__background}>
                     <div className={styles.app__container}>
-                        <Output expression={props.expression}
+                        <Output
+                            expression={props.expression}
                             inputVal={props.inputVal}
                             error={props.error}
                             onInputChange={(e) => props.setInput(e.currentTarget.value)}
                         />
-                        <Input numbersInputsBlockOpers={numbersInputsBlockOpers}
+                        <Input
+                            numbersInputsBlockOpers={numbersInputsBlockOpers}
                             topLineBlockOpers={topLineBlockOpers}
                             rightColumnBlockOpers={rightColumnBlockOpers}
                         />
@@ -127,10 +132,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
 });
 
-const AppComponentContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(AppComponent);
+const AppComponentContainer = connect(mapStateToProps, mapDispatchToProps)(AppComponent);
 
 const App = () => (
     <Provider store={store}>

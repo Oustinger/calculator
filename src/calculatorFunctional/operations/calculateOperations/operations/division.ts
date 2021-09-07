@@ -1,13 +1,13 @@
-import isNumber from "../../../../utils/isNumber";
-import { ExpressionType } from "../../../calculateResult/calculateResult";
-import { ExprStructureType } from "../../../calculateResult/parseSymbols";
-import CalcOperationClass from "../calcOperationClass";
+import isNumber from '../../../../utils/isNumber';
+import { ExpressionType } from '../../../calculateResult/calculateResult';
+import { ExprStructureType } from '../../../calculateResult/parseSymbols';
+import CalcOperationClass from '../calcOperationClass';
 
 class Division extends CalcOperationClass {
-    calculate(params: { leftArg: number | null, rightArg: number | null }): ExpressionType {
+    calculate(params: { leftArg: number | null; rightArg: number | null }): ExpressionType {
         const leftNumber = params.leftArg !== null ? params.leftArg : 1;
         const rightNumber = params.rightArg !== null ? params.rightArg : 1;
-        
+
         return [leftNumber / rightNumber];
     }
 
@@ -18,8 +18,7 @@ class Division extends CalcOperationClass {
 
         this.stepByStepOperations(exprStructure, index);
 
-        if (isNumber(rightNum))
-            this.divideByZero(rightNum);
+        if (isNumber(rightNum)) this.divideByZero(rightNum);
     }
 
     // custom parse checkers

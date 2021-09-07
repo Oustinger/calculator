@@ -1,5 +1,5 @@
 .output {
-    --padding: .5rem;
+    --padding: 0.5rem;
 
     padding-top: 1.2rem;
     display: grid;
@@ -7,7 +7,7 @@
     grid-template-rows: 1fr 2fr;
     grid-gap: var(--padding);
     text-align: end;
-    font-size: .7rem;
+    font-size: 0.7rem;
 }
 
 .error {

@@ -1,10 +1,11 @@
 .input {
-    --gap: .5rem;
+    --gap: 0.5rem;
 
     display: grid;
-    grid-template-areas: 't t t r'
-    'n n n r'
-    'n n n r';
+    grid-template-areas:
+        't t t r'
+        'n n n r'
+        'n n n r';
     grid-gap: var(--gap);
 
     -webkit-user-select: none;
@@ -40,7 +41,7 @@
 }
 
 .button {
-    --padding: .3rem;
+    --padding: 0.3rem;
 
     width: calc(var(--font-size) + var(--padding) * 2);
     height: calc(var(--font-size) + var(--padding) * 2);
@@ -48,7 +49,7 @@
     text-align: center;
     border-radius: 50px;
     cursor: pointer;
-    transition: all ease-out .2s;
+    transition: all ease-out 0.2s;
 }
 
 .button.invert {

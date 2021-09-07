@@ -1,16 +1,13 @@
-import CommonOperationClass, { CommonOperationInterface } from "../commonOperationClass";
+import CommonOperationClass, { CommonOperationInterface } from '../commonOperationClass';
 
 export interface ParenthesisInterface extends CommonOperationInterface {
-    readonly symbol: string,
-    readonly type: string,
-    getType(): string,
+    readonly symbol: string;
+    readonly type: string;
+    getType(): string;
 }
 
 class ParenthesisClass extends CommonOperationClass implements ParenthesisInterface {
-    constructor(
-        readonly symbol: string,
-        readonly type: string
-    ) {
+    constructor(readonly symbol: string, readonly type: string) {
         super(symbol);
         this.type = type;
     }

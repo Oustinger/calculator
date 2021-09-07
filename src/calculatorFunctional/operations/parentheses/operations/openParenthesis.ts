@@ -1,4 +1,4 @@
-import ParenthesisClass from "../parenthesisClass";
+import ParenthesisClass from '../parenthesisClass';
 
 const openParenthesis = new ParenthesisClass('(', 'open');
 

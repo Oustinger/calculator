@@ -1,4 +1,4 @@
-import calculateResult from "./calculateResult";
+import calculateResult from './calculateResult';
 
 describe('addition', () => {
     test('common', () => {

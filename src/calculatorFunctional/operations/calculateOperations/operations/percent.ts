@@ -1,8 +1,8 @@
-import arrayHelper from "../../../../utils/arrayHelper";
-import isNumber from "../../../../utils/isNumber";
-import { CalculateExprInterface, ExpressionType } from "../../../calculateResult/calculateResult";
-import { ExprStructureType } from "../../../calculateResult/parseSymbols";
-import CalcOperationClass from "../calcOperationClass";
+import arrayHelper from '../../../../utils/arrayHelper';
+import isNumber from '../../../../utils/isNumber';
+import { CalculateExprInterface, ExpressionType } from '../../../calculateResult/calculateResult';
+import { ExprStructureType } from '../../../calculateResult/parseSymbols';
+import CalcOperationClass from '../calcOperationClass';
 
 class Percent extends CalcOperationClass {
     readonly canBePlacedBeforeOtherOperation: boolean = true;
@@ -16,13 +16,11 @@ class Percent extends CalcOperationClass {
         this.numOnRightMustNotBe(isExistRightNum);
     }
 
-    calculate(
-        params: {
-            expr: ExpressionType,
-            calculateExpr: (params: CalculateExprInterface) => number,
-            operationIndex: number,
-        }
-    ): ExpressionType {
+    calculate(params: {
+        expr: ExpressionType;
+        calculateExpr: (params: CalculateExprInterface) => number;
+        operationIndex: number;
+    }): ExpressionType {
         const { expr, calculateExpr, operationIndex } = params;
 
         // checking operation before (on the left) this operation
@@ -32,34 +30,34 @@ class Percent extends CalcOperationClass {
             const exprLastIndexToCalc = operationIndex - 2;
             const newLeftPart = calculateExpr({ expr: expr.slice(0, exprLastIndexToCalc), index: 0 });
 
-            const newExprStructure = [
-                newLeftPart,
-                ...expr.slice(exprLastIndexToCalc),
-            ];
+            const newExprStructure = [newLeftPart, ...expr.slice(exprLastIndexToCalc)];
             const newOperationIndex = 3;
 
             return this.calculate({ expr: newExprStructure, calculateExpr, operationIndex: newOperationIndex });
         }
 
         const mainNumIndex = operationIndex - 3;
-        const isExistMainNum = (mainNumIndex >= 0);
+        const isExistMainNum = mainNumIndex >= 0;
         const mainNum = isExistMainNum ? expr[mainNumIndex] : 1;
 
         const secondaryNumIndex = operationIndex - 1;
         const secondaryNum = expr[secondaryNumIndex];
 
         if (isNumber(mainNum) && isNumber(secondaryNum)) {
-            const result: number = mainNum / 100 * secondaryNum;
+            const result: number = (mainNum / 100) * secondaryNum;
 
             const newExprStructure = arrayHelper.changeItemsOnItem(
-                expr, result, secondaryNumIndex - 1, operationIndex + 1
+                expr,
+                result,
+                secondaryNumIndex - 1,
+                operationIndex + 1
             );
 
             return newExprStructure;
         }
 
         throw new Error('Some of percent operation arguments is not a number');
-    };
+    }
 }
 
 const percent = new Percent('percent', '%', 2);

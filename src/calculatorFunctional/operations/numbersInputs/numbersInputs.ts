@@ -13,11 +13,22 @@ import doubleZero from './numbers/doubleZero';
 import comma from './otherInputs/comma';
 
 export interface NumbersInputsInterface {
-    [key: string]: CommonOperationInterface,
+    [key: string]: CommonOperationInterface;
 }
 
 const numbersInputs: NumbersInputsInterface = {
-    zero, one, two, three, four, five, six, seven, eight, nine, doubleZero, comma
+    zero,
+    one,
+    two,
+    three,
+    four,
+    five,
+    six,
+    seven,
+    eight,
+    nine,
+    doubleZero,
+    comma,
 };
 
 export default numbersInputs;
