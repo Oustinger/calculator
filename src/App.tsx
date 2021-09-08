@@ -5,12 +5,20 @@ import styles from './App.module.css';
 import Input from './components/inputPart/Input';
 import Output, { TOutput } from './components/outputPart/Output';
 import {
+    AppProps,
+    IFormatOperationsWithFunc,
+    IMapDispatchToProps,
+    IMapStateToProps,
+    TInputFunctions,
+    TOperationsBlock,
+} from './IApp';
+import {
     addSymbol,
-    TCalcReducerPayloadAction,
     calculate,
     clean,
     deleteLastSymbol,
     setInput,
+    TCalcReducerPayloadAction,
 } from './redux/calc/calcReducer';
 import {
     getCalcOperations,
@@ -21,17 +29,8 @@ import {
     getNumbersInputs,
     getParenthesesOperations,
     IFormatOperations,
-    TFormatOperation,
 } from './redux/calc/calcSelectors';
 import store from './redux/store';
-
-export type TFormatOperationWithFunc = TFormatOperation & {
-    func: TInputFunc;
-};
-
-type IFormatOperationsWithFunc = {
-    [operationName: string]: TFormatOperationWithFunc;
-};
 
 const setFunctions = (operations: IFormatOperations, inputFuncs: TInputFunctions): IFormatOperationsWithFunc =>
     Object.entries(operations).reduce((acc, [operationName, operation]) => {
@@ -48,8 +47,6 @@ const setFunctions = (operations: IFormatOperations, inputFuncs: TInputFunctions
 
         return { ...acc, [operationName]: newOperation };
     }, {});
-
-export type TOperationsBlock = TFormatOperationWithFunc[];
 
 const getOperationsByBlocks = (
     defaultOperations: IFormatOperations,
@@ -81,32 +78,6 @@ const respondOnKeyUp = (key: string, operations: TOperationsBlock) =>
     Object.values(operations).forEach((operation) =>
         operation.symbol === key || operation.exSymbols.includes(key) ? operation.func(operation.symbol) : null
     );
-
-interface IMapStateToProps {
-    inputVal: string;
-    expression: string;
-    error: string;
-    numbersInputs: IFormatOperations;
-    parenthesesOperations: IFormatOperations;
-    defaultOperations: IFormatOperations;
-    calcOperations: IFormatOperations;
-}
-
-type TInputFunc = (symbol?: string) => {};
-
-type TInputFunctions = {
-    addSymbol: TInputFunc;
-    calculate: TInputFunc;
-    clean: TInputFunc;
-    deleteLastSymbol: TInputFunc;
-};
-
-interface IMapDispatchToProps {
-    setInput: (value: string) => {};
-    inputFuncs: TInputFunctions;
-}
-
-type AppProps = IMapStateToProps & IMapDispatchToProps;
 
 const AppComponent = (props: AppProps) => {
     const [topLineBlockOpers, rightColumnBlockOpers, numbersInputsBlockOpers, noBlockOpers] = getOperationsByBlocks(

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { TFormatOperationWithFunc, TOperationsBlock } from '../../App';
+import { TFormatOperationWithFunc, TOperationsBlock } from '../../IApp';
 import styles from './Input.module.css';
 
 const Button = ({ symbol, func, isInvert }: TFormatOperationWithFunc) => (
