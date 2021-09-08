@@ -2,8 +2,8 @@ import React, { createRef, useEffect } from 'react';
 import { connect, Provider, RootStateOrAny } from 'react-redux';
 import './App.module.css';
 import styles from './App.module.css';
-import Input from './components/inputPart/Input';
-import Output, { TOutput } from './components/outputPart/Output';
+import Input from '../../components/inputPart/Input';
+import Output, { TOutput } from '../../components/outputPart/Output';
 import {
     AppProps,
     IFormatOperationsWithFunc,
@@ -19,7 +19,7 @@ import {
     deleteLastSymbol,
     setInput,
     TCalcReducerPayloadAction,
-} from './redux/calc/calcReducer';
+} from '../../redux/calc/calcReducer';
 import {
     getCalcOperations,
     getDefaultOperations,
@@ -29,8 +29,8 @@ import {
     getNumbersInputs,
     getParenthesesOperations,
     IFormatOperations,
-} from './redux/calc/calcSelectors';
-import store from './redux/store';
+} from '../../redux/calc/calcSelectors';
+import store from '../../redux/store';
 
 const setFunctions = (operations: IFormatOperations, inputFuncs: TInputFunctions): IFormatOperationsWithFunc =>
     Object.entries(operations).reduce((acc, [operationName, operation]) => {

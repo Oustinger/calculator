@@ -1,4 +1,4 @@
-import { IFormatOperations, TFormatOperation } from './redux/calc/calcSelectors';
+import { IFormatOperations, TFormatOperation } from '../../redux/calc/calcSelectors';
 
 export type TInputFunc = (symbol?: string) => {};
 
