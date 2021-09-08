@@ -1,11 +1,11 @@
 import closeParenthesis from './operations/closeParenthesis';
 import openParenthesis from './operations/openParenthesis';
-import { ParenthesisInterface } from './parenthesisClass';
+import { IParenthesis } from './parenthesisClass';
 
-export interface ParenthesesInterface {
-    [key: string]: ParenthesisInterface;
+export interface IParentheses {
+    [key: string]: IParenthesis;
 }
 
-const parentheses: ParenthesesInterface = { openParenthesis, closeParenthesis };
+const parentheses: IParentheses = { openParenthesis, closeParenthesis };
 
 export default parentheses;

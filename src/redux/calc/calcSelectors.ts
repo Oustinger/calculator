@@ -1,10 +1,10 @@
 import { RootStateOrAny } from 'react-redux';
 import { createSelector } from 'reselect';
-import { CalcOperationsInterface } from '../../calculatorFunctional/operations/calculateOperations/calcOperations';
-import { CommonOperationInterface } from '../../calculatorFunctional/operations/commonOperationClass';
-import { DefaultOperationsInterface } from '../../calculatorFunctional/operations/defaultOperations/defaultOperations';
-import { NumbersInputsInterface } from '../../calculatorFunctional/operations/numbersInputs/numbersInputs';
-import { ParenthesesInterface } from '../../calculatorFunctional/operations/parentheses/parentheses';
+import { ICalcOperations } from '../../calculatorFunctional/operations/calculateOperations/calcOperations';
+import { ICommonOperation } from '../../calculatorFunctional/operations/commonOperationClass';
+import { IDefaultOperations } from '../../calculatorFunctional/operations/defaultOperations/defaultOperations';
+import { INumbersInputs } from '../../calculatorFunctional/operations/numbersInputs/numbersInputs';
+import { IParentheses } from '../../calculatorFunctional/operations/parentheses/parentheses';
 
 export const getInput = (state: RootStateOrAny): string => state.calc.input;
 export const getExpression = (state: RootStateOrAny): string => state.calc.expression;
@@ -23,7 +23,7 @@ export interface IFormatOperations {
 
 const formatOperations = (
     operations: {
-        [operationName: string]: CommonOperationInterface;
+        [operationName: string]: ICommonOperation;
     },
     customOperations: {
         [operationName: string]: {
@@ -45,19 +45,17 @@ const formatOperations = (
         {}
     );
 
-const getNumbersInputsPrimitive = (state: RootStateOrAny): NumbersInputsInterface => state.calc.numbersInputs;
-export const getNumbersInputs = createSelector(getNumbersInputsPrimitive, (numberInputs: NumbersInputsInterface) =>
+const getNumbersInputsPrimitive = (state: RootStateOrAny): INumbersInputs => state.calc.numbersInputs;
+export const getNumbersInputs = createSelector(getNumbersInputsPrimitive, (numberInputs: INumbersInputs) =>
     formatOperations(numberInputs)
 );
 
-const getParenthesesOperationsPrimitive = (state: RootStateOrAny): ParenthesesInterface =>
-    state.calc.parenthesesOperations;
+const getParenthesesOperationsPrimitive = (state: RootStateOrAny): IParentheses => state.calc.parenthesesOperations;
 export const getParenthesesOperations = createSelector(getParenthesesOperationsPrimitive, (parenthesesOperations) =>
     formatOperations(parenthesesOperations)
 );
 
-const getDefaultOperationsPrimitive = (state: RootStateOrAny): DefaultOperationsInterface =>
-    state.calc.defaultOperations;
+const getDefaultOperationsPrimitive = (state: RootStateOrAny): IDefaultOperations => state.calc.defaultOperations;
 export const getDefaultOperations = createSelector(getDefaultOperationsPrimitive, (operations) =>
     formatOperations(operations, {
         clean: {
@@ -70,7 +68,7 @@ export const getDefaultOperations = createSelector(getDefaultOperationsPrimitive
     })
 );
 
-const getCalcOperationsPrimitive = (state: RootStateOrAny): CalcOperationsInterface => state.calc.calcOperations;
+const getCalcOperationsPrimitive = (state: RootStateOrAny): ICalcOperations => state.calc.calcOperations;
 export const getCalcOperations = createSelector(getCalcOperationsPrimitive, (operations) =>
     formatOperations(operations)
 );

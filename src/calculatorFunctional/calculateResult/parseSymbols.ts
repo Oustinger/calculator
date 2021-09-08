@@ -37,7 +37,7 @@ function hasStringExprStructure(
 
 type ExprStructureTypeWithString = Array<number | CalcOperationClass | ExprStructureType | string>;
 
-interface ParseInterface {
+interface IParse {
     symbols: Array<string>;
     index: number;
     parenthesisPairFinder: number;
@@ -49,7 +49,7 @@ const parse = (
     index: number = 0,
     parenthesisPairFinder: number = 0,
     exprStructure: ExprStructureTypeWithString = []
-): ExprStructureType | ParseInterface => {
+): ExprStructureType | IParse => {
     const symbol = symbols[index];
 
     if (!symbol) {

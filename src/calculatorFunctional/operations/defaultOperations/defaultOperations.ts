@@ -1,11 +1,11 @@
-import { CommonOperationInterface } from '../commonOperationClass';
+import { ICommonOperation } from '../commonOperationClass';
 import calculate from './operations/calculate';
 import clean from './operations/clean';
 
-export interface DefaultOperationsInterface {
-    [key: string]: CommonOperationInterface;
+export interface IDefaultOperations {
+    [key: string]: ICommonOperation;
 }
 
-const defaultOperations: DefaultOperationsInterface = { clean, calculate };
+const defaultOperations: IDefaultOperations = { clean, calculate };
 
 export default defaultOperations;

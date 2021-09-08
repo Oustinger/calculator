@@ -1,6 +1,6 @@
 import arrayHelper from '../../../../utils/arrayHelper';
 import isNumber from '../../../../utils/isNumber';
-import { CalculateExprInterface, ExpressionType } from '../../../calculateResult/calculateResult';
+import { ICalculateExpr, ExpressionType } from '../../../calculateResult/calculateResult';
 import { ExprStructureType } from '../../../calculateResult/parseSymbols';
 import CalcOperationClass from '../calcOperationClass';
 
@@ -18,7 +18,7 @@ class Percent extends CalcOperationClass {
 
     calculate(params: {
         expr: ExpressionType;
-        calculateExpr: (params: CalculateExprInterface) => number;
+        calculateExpr: (params: ICalculateExpr) => number;
         operationIndex: number;
     }): ExpressionType {
         const { expr, calculateExpr, operationIndex } = params;

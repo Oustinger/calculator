@@ -1,9 +1,9 @@
 import isNumber from '../../../utils/isNumber';
 import { ExpressionType } from '../../calculateResult/calculateResult';
 import { ExprStructureType } from '../../calculateResult/parseSymbols';
-import CommonOperationClass, { CommonOperationInterface } from '../commonOperationClass';
+import CommonOperationClass, { ICommonOperation } from '../commonOperationClass';
 
-export interface CalcOperationClassInterface extends CommonOperationInterface {
+export interface ICalcOperationClass extends ICommonOperation {
     readonly operationName: string;
     readonly symbol: string;
     readonly priority: number;
@@ -53,7 +53,7 @@ export interface CalcOperationClassInterface extends CommonOperationInterface {
     calculate(params: { [key: string]: any }): ExpressionType;
 }
 
-export default class CalcOperationClass extends CommonOperationClass implements CalcOperationClassInterface {
+export default class CalcOperationClass extends CommonOperationClass implements ICalcOperationClass {
     constructor(
         readonly operationName: string,
         readonly symbol: string,

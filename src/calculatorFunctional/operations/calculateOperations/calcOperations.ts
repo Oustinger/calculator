@@ -1,4 +1,4 @@
-import { CalcOperationClassInterface } from './calcOperationClass';
+import { ICalcOperationClass } from './calcOperationClass';
 import addition from './operations/addition';
 import division from './operations/division';
 import multiplication from './operations/multiplication';
@@ -6,8 +6,8 @@ import percent from './operations/percent';
 import squareRoot from './operations/squareRoot';
 import subtraction from './operations/subtraction';
 
-export interface CalcOperationsInterface {
-    [key: string]: CalcOperationClassInterface;
+export interface ICalcOperations {
+    [key: string]: ICalcOperationClass;
 }
 
 const calcOperations = {

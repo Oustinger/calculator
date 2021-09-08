@@ -1,29 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import calculateResult from '../../calculatorFunctional/calculateResult/calculateResult';
 import calcOperations, {
-    CalcOperationsInterface,
+    ICalcOperations,
 } from '../../calculatorFunctional/operations/calculateOperations/calcOperations';
 import defaultOperations, {
-    DefaultOperationsInterface,
+    IDefaultOperations,
 } from '../../calculatorFunctional/operations/defaultOperations/defaultOperations';
-import numbersInputs, {
-    NumbersInputsInterface,
-} from '../../calculatorFunctional/operations/numbersInputs/numbersInputs';
-import parenthesesOperations, {
-    ParenthesesInterface,
-} from '../../calculatorFunctional/operations/parentheses/parentheses';
+import numbersInputs, { INumbersInputs } from '../../calculatorFunctional/operations/numbersInputs/numbersInputs';
+import parenthesesOperations, { IParentheses } from '../../calculatorFunctional/operations/parentheses/parentheses';
 
-interface calcReducerStateInterface {
+interface ICalcReducerState {
     input: string;
     expression: string | null;
-    numbersInputs: NumbersInputsInterface;
-    defaultOperations: DefaultOperationsInterface;
-    parenthesesOperations: ParenthesesInterface;
-    calcOperations: CalcOperationsInterface;
+    numbersInputs: INumbersInputs;
+    defaultOperations: IDefaultOperations;
+    parenthesesOperations: IParentheses;
+    calcOperations: ICalcOperations;
     error: string | null;
 }
 
-const initialState: calcReducerStateInterface = {
+const initialState: ICalcReducerState = {
     input: '',
     expression: null,
     numbersInputs,

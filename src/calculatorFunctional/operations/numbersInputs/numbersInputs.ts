@@ -1,4 +1,4 @@
-import { CommonOperationInterface } from '../commonOperationClass';
+import { ICommonOperation } from '../commonOperationClass';
 import eight from './numbers/default/eight';
 import five from './numbers/default/five';
 import four from './numbers/default/four';
@@ -12,11 +12,11 @@ import zero from './numbers/default/zero';
 import doubleZero from './numbers/doubleZero';
 import comma from './otherInputs/comma';
 
-export interface NumbersInputsInterface {
-    [key: string]: CommonOperationInterface;
+export interface INumbersInputs {
+    [key: string]: ICommonOperation;
 }
 
-const numbersInputs: NumbersInputsInterface = {
+const numbersInputs: INumbersInputs = {
     zero,
     one,
     two,

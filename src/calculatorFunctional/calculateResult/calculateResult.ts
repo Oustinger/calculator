@@ -5,7 +5,7 @@ import parseSymbols, { ExprStructureType } from './parseSymbols';
 
 export type ExpressionType = Array<number | CalcOperationClass>;
 
-export interface CalculateExprInterface {
+export interface ICalculateExpr {
     expr: ExpressionType;
     index?: number;
     maxPriority?: number;
@@ -13,14 +13,14 @@ export interface CalculateExprInterface {
     [key: string]: ExpressionType | number | null | undefined;
 }
 
-const calculateExprDefValues: CalculateExprInterface = {
+const calculateExprDefValues: ICalculateExpr = {
     expr: [],
     index: 0,
     maxPriority: -1,
     maxPriorityOperationIndex: null,
 };
 
-const calculateExpr = (params: CalculateExprInterface): number => {
+const calculateExpr = (params: ICalculateExpr): number => {
     const { expr, index, maxPriority, maxPriorityOperationIndex } = { ...calculateExprDefValues, ...params };
 
     if (

@@ -1,4 +1,4 @@
-export interface CommonOperationInterface {
+export interface ICommonOperation {
     readonly symbol: string;
     readonly exSymbols?: Array<string>;
     getSymbol(): string;
@@ -7,7 +7,7 @@ export interface CommonOperationInterface {
     checkIsOperation(symbol: string): boolean;
 }
 
-export default class CommonOperationClass implements CommonOperationInterface {
+export default class CommonOperationClass implements ICommonOperation {
     constructor(readonly symbol: string, readonly exSymbols: Array<string> = []) {
         this.symbol = symbol;
         this.exSymbols = exSymbols;
