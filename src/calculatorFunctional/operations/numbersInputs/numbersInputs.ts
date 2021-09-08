@@ -13,7 +13,7 @@ import doubleZero from './numbers/doubleZero';
 import comma from './otherInputs/comma';
 
 export interface INumbersInputs {
-    [key: string]: ICommonOperation;
+    [numberInputName: string]: ICommonOperation;
 }
 
 const numbersInputs: INumbersInputs = {

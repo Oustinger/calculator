@@ -7,7 +7,7 @@ import squareRoot from './operations/squareRoot';
 import subtraction from './operations/subtraction';
 
 export interface ICalcOperations {
-    [key: string]: ICalcOperationClass;
+    [calcOperationName: string]: ICalcOperationClass;
 }
 
 const calcOperations = {

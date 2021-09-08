@@ -29,7 +29,7 @@ const initialState: ICalcReducerState = {
     error: null,
 };
 
-export type TCalcReducerPayloadAction = PayloadAction<{ [key: string]: string } | undefined>;
+export type TCalcReducerPayloadAction = PayloadAction<{ [paramName: string]: string } | undefined>;
 
 export const calcSlice = createSlice({
     name: 'calc',

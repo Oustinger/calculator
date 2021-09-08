@@ -10,7 +10,6 @@ export interface ICalculateExpr {
     index?: number;
     maxPriority?: number;
     maxPriorityOperationIndex?: number | null;
-    [key: string]: TExpression | number | null | undefined;
 }
 
 const calculateExprDefValues: ICalculateExpr = {

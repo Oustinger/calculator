@@ -3,7 +3,7 @@ import calculate from './operations/calculate';
 import clean from './operations/clean';
 
 export interface IDefaultOperations {
-    [key: string]: ICommonOperation;
+    [defaultOperationName: string]: ICommonOperation;
 }
 
 const defaultOperations: IDefaultOperations = { clean, calculate };

@@ -50,7 +50,7 @@ export interface ICalcOperationClass extends ICommonOperation {
     numOnRightMustNotBe(isExistLeftNum: boolean | undefined): void;
     exprOnLeftMustNotBeNum(isExistLeftNum: boolean | undefined): void;
 
-    calculate(params: { [key: string]: any }): TExpression;
+    calculate(params: { [paramName: string]: any }): TExpression;
 }
 
 export default class CalcOperationClass extends CommonOperationClass implements ICalcOperationClass {
@@ -198,7 +198,7 @@ export default class CalcOperationClass extends CommonOperationClass implements 
         if (isExistLeftNum) throw new Error(`The ${this.operationName} operation mustn't has any number on the left`);
     }
 
-    calculate(params: { [key: string]: any }): TExpression {
+    calculate(params: { [paramName: string]: any }): TExpression {
         const defaultExpr = [0];
         return defaultExpr;
     }

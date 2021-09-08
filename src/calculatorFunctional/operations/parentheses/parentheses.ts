@@ -3,7 +3,7 @@ import openParenthesis from './operations/openParenthesis';
 import { IParenthesis } from './parenthesisClass';
 
 export interface IParentheses {
-    [key: string]: IParenthesis;
+    [parenthesisName: string]: IParenthesis;
 }
 
 const parentheses: IParentheses = { openParenthesis, closeParenthesis };
