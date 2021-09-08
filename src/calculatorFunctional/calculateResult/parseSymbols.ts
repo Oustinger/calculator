@@ -5,7 +5,7 @@ import findOperationBySymbol from '../operations/calculateOperations/findOperati
 import findNumberInputBySymbol from '../operations/numbersInputs/findNumberInputBySymbol';
 import findParenthesis from '../operations/parentheses/findParenthesis';
 
-export type ExprStructureType = Array<number | CalcOperationClass | ExprStructureType>;
+export type TExprStructure = Array<number | CalcOperationClass | TExprStructure>;
 
 const checkParenthesisPairFinder = (count: number, checkType?: string): void => {
     const errorMessage = 'Some parenthesis pair not found';
@@ -25,9 +25,7 @@ const checkParenthesisPairFinder = (count: number, checkType?: string): void => 
     }
 };
 
-function hasStringExprStructure(
-    exprStructure: ExprStructureTypeWithString
-): exprStructure is ExprStructureTypeWithString {
+function hasStringExprStructure(exprStructure: TExprStructureWithString): exprStructure is TExprStructureWithString {
     return !!exprStructure.find((exprChild) => {
         if (exprChild instanceof Array) return hasStringExprStructure(exprChild);
 
@@ -35,21 +33,21 @@ function hasStringExprStructure(
     });
 }
 
-type ExprStructureTypeWithString = Array<number | CalcOperationClass | ExprStructureType | string>;
+type TExprStructureWithString = Array<number | CalcOperationClass | TExprStructure | string>;
 
 interface IParse {
     symbols: Array<string>;
     index: number;
     parenthesisPairFinder: number;
-    exprStructure: ExprStructureTypeWithString;
+    exprStructure: TExprStructureWithString;
 }
 
 const parse = (
     symbols: Array<string>,
     index: number = 0,
     parenthesisPairFinder: number = 0,
-    exprStructure: ExprStructureTypeWithString = []
-): ExprStructureType | IParse => {
+    exprStructure: TExprStructureWithString = []
+): TExprStructure | IParse => {
     const symbol = symbols[index];
 
     if (!symbol) {
@@ -137,7 +135,7 @@ const parse = (
     throw new Error(`Unknown symbol: " ${symbol} "`);
 };
 
-const checkByOperationsCheckers = (exprStructure: ExprStructureType, index: number = 0): void => {
+const checkByOperationsCheckers = (exprStructure: TExprStructure, index: number = 0): void => {
     if (index === exprStructure.length) return;
 
     const element = exprStructure[index];
@@ -152,7 +150,7 @@ const checkByOperationsCheckers = (exprStructure: ExprStructureType, index: numb
     checkByOperationsCheckers(exprStructure, index + 1);
 };
 
-const parseSymbols = (symbols: string): ExprStructureType => {
+const parseSymbols = (symbols: string): TExprStructure => {
     const exprStructure = parse(symbols.split(''));
 
     if (!Array.isArray(exprStructure))

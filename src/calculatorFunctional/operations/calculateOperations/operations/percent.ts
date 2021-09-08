@@ -1,14 +1,14 @@
 import arrayHelper from '../../../../utils/arrayHelper';
 import isNumber from '../../../../utils/isNumber';
-import { ICalculateExpr, ExpressionType } from '../../../calculateResult/calculateResult';
-import { ExprStructureType } from '../../../calculateResult/parseSymbols';
+import { ICalculateExpr, TExpression } from '../../../calculateResult/calculateResult';
+import { TExprStructure } from '../../../calculateResult/parseSymbols';
 import CalcOperationClass from '../calcOperationClass';
 
 class Percent extends CalcOperationClass {
     readonly canBePlacedBeforeOtherOperation: boolean = true;
     readonly hasOwnFullCalculateFunc: boolean = true;
 
-    parseCheck(exprStructure: ExprStructureType, index: number): void {
+    parseCheck(exprStructure: TExprStructure, index: number): void {
         super.parseCheck(exprStructure, index);
 
         const { isExistRightNum } = this.getRightNum(exprStructure, index);
@@ -17,10 +17,10 @@ class Percent extends CalcOperationClass {
     }
 
     calculate(params: {
-        expr: ExpressionType;
+        expr: TExpression;
         calculateExpr: (params: ICalculateExpr) => number;
         operationIndex: number;
-    }): ExpressionType {
+    }): TExpression {
         const { expr, calculateExpr, operationIndex } = params;
 
         // checking operation before (on the left) this operation

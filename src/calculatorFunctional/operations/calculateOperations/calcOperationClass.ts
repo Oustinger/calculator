@@ -1,6 +1,6 @@
 import isNumber from '../../../utils/isNumber';
-import { ExpressionType } from '../../calculateResult/calculateResult';
-import { ExprStructureType } from '../../calculateResult/parseSymbols';
+import { TExpression } from '../../calculateResult/calculateResult';
+import { TExprStructure } from '../../calculateResult/parseSymbols';
 import CommonOperationClass, { ICommonOperation } from '../commonOperationClass';
 
 export interface ICalcOperationClass extends ICommonOperation {
@@ -13,44 +13,44 @@ export interface ICalcOperationClass extends ICommonOperation {
     readonly canBePlacedBeforeOtherOperation: boolean;
     readonly hasOwnFullCalculateFunc: boolean;
 
-    parseCheck(exprStructure: ExprStructureType, index: number): void;
+    parseCheck(exprStructure: TExprStructure, index: number): void;
 
     getRightNum(
-        exprStructure: ExprStructureType,
+        exprStructure: TExprStructure,
         index: number
     ): {
-        rightNum?: number | CalcOperationClass | ExprStructureType;
+        rightNum?: number | CalcOperationClass | TExprStructure;
         isExistRightNum?: boolean;
     };
     getLeftNum(
-        exprStructure: ExprStructureType,
+        exprStructure: TExprStructure,
         index: number
     ): {
-        leftNum?: number | CalcOperationClass | ExprStructureType;
+        leftNum?: number | CalcOperationClass | TExprStructure;
         isExistLeftNum?: boolean;
     };
     getPrevExprElem(
-        exprStructure: ExprStructureType,
+        exprStructure: TExprStructure,
         index: number
     ): {
-        prevExprElem?: number | CalcOperationClass | ExprStructureType;
+        prevExprElem?: number | CalcOperationClass | TExprStructure;
         isExistPrevExprElem?: boolean;
     };
     getNextExprElem(
-        exprStructure: ExprStructureType,
+        exprStructure: TExprStructure,
         index: number
     ): {
-        nextExprElem?: number | CalcOperationClass | ExprStructureType;
+        nextExprElem?: number | CalcOperationClass | TExprStructure;
         isExistNextExprElem?: boolean;
     };
 
-    argumentsNotFound(exprStructure: ExprStructureType, index: number): void;
-    stepByStepOperations(exprStructure: ExprStructureType, index: number): void;
+    argumentsNotFound(exprStructure: TExprStructure, index: number): void;
+    stepByStepOperations(exprStructure: TExprStructure, index: number): void;
     numOnRightMustBe(isExistLeftNum: boolean | undefined): void;
     numOnRightMustNotBe(isExistLeftNum: boolean | undefined): void;
     exprOnLeftMustNotBeNum(isExistLeftNum: boolean | undefined): void;
 
-    calculate(params: { [key: string]: any }): ExpressionType;
+    calculate(params: { [key: string]: any }): TExpression;
 }
 
 export default class CalcOperationClass extends CommonOperationClass implements ICalcOperationClass {
@@ -70,15 +70,15 @@ export default class CalcOperationClass extends CommonOperationClass implements 
 
     readonly hasOwnFullCalculateFunc: boolean = false;
 
-    parseCheck(exprStructure: ExprStructureType, index: number): void {
+    parseCheck(exprStructure: TExprStructure, index: number): void {
         this.argumentsNotFound(exprStructure, index);
     }
 
     getRightNum(
-        exprStructure: ExprStructureType,
+        exprStructure: TExprStructure,
         index: number
     ): {
-        rightNum?: number | CalcOperationClass | ExprStructureType;
+        rightNum?: number | CalcOperationClass | TExprStructure;
         isExistRightNum?: boolean;
     } {
         const rightNumIndex = index + 1;
@@ -94,10 +94,10 @@ export default class CalcOperationClass extends CommonOperationClass implements 
     }
 
     getLeftNum(
-        exprStructure: ExprStructureType,
+        exprStructure: TExprStructure,
         index: number
     ): {
-        leftNum?: number | CalcOperationClass | ExprStructureType;
+        leftNum?: number | CalcOperationClass | TExprStructure;
         isExistLeftNum?: boolean;
     } {
         const leftNumIndex = index - 1;
@@ -113,10 +113,10 @@ export default class CalcOperationClass extends CommonOperationClass implements 
     }
 
     getPrevExprElem(
-        exprStructure: ExprStructureType,
+        exprStructure: TExprStructure,
         index: number
     ): {
-        prevExprElem?: number | CalcOperationClass | ExprStructureType;
+        prevExprElem?: number | CalcOperationClass | TExprStructure;
         isExistPrevExprElem?: boolean;
     } {
         const prevExprElemIndex = index - 1;
@@ -133,10 +133,10 @@ export default class CalcOperationClass extends CommonOperationClass implements 
     }
 
     getNextExprElem(
-        exprStructure: ExprStructureType,
+        exprStructure: TExprStructure,
         index: number
     ): {
-        nextExprElem?: number | CalcOperationClass | ExprStructureType;
+        nextExprElem?: number | CalcOperationClass | TExprStructure;
         isExistNextExprElem?: boolean;
     } {
         const nextExprElemIndex = index + 1;
@@ -149,7 +149,7 @@ export default class CalcOperationClass extends CommonOperationClass implements 
     }
 
     // common parse checkers
-    argumentsNotFound(exprStructure: ExprStructureType, index: number): void {
+    argumentsNotFound(exprStructure: TExprStructure, index: number): void {
         const { prevExprElem, isExistPrevExprElem } = this.getPrevExprElem(exprStructure, index);
         const { nextExprElem, isExistNextExprElem } = this.getNextExprElem(exprStructure, index);
 
@@ -171,7 +171,7 @@ export default class CalcOperationClass extends CommonOperationClass implements 
             throw new Error(`Arguments for ${this.operationName} not found`);
         }
     }
-    stepByStepOperations(exprStructure: ExprStructureType, index: number): void {
+    stepByStepOperations(exprStructure: TExprStructure, index: number): void {
         const { prevExprElem, isExistPrevExprElem } = this.getPrevExprElem(exprStructure, index);
         const { nextExprElem, isExistNextExprElem } = this.getNextExprElem(exprStructure, index);
 
@@ -198,7 +198,7 @@ export default class CalcOperationClass extends CommonOperationClass implements 
         if (isExistLeftNum) throw new Error(`The ${this.operationName} operation mustn't has any number on the left`);
     }
 
-    calculate(params: { [key: string]: any }): ExpressionType {
+    calculate(params: { [key: string]: any }): TExpression {
         const defaultExpr = [0];
         return defaultExpr;
     }

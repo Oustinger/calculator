@@ -1,16 +1,16 @@
-import { ExpressionType } from '../../../calculateResult/calculateResult';
-import { ExprStructureType } from '../../../calculateResult/parseSymbols';
+import { TExpression } from '../../../calculateResult/calculateResult';
+import { TExprStructure } from '../../../calculateResult/parseSymbols';
 import CalcOperationClass from '../calcOperationClass';
 
 class Subtraction extends CalcOperationClass {
-    calculate(params: { leftArg: number | null; rightArg: number | null }): ExpressionType {
+    calculate(params: { leftArg: number | null; rightArg: number | null }): TExpression {
         const leftNumber = params.leftArg !== null ? params.leftArg : 0;
         const rightNumber = params.rightArg !== null ? params.rightArg : 0;
 
         return [leftNumber - rightNumber];
     }
 
-    parseCheck(exprStructure: ExprStructureType, index: number): void {
+    parseCheck(exprStructure: TExprStructure, index: number): void {
         super.parseCheck(exprStructure, index);
 
         this.stepByStepOperations(exprStructure, index);

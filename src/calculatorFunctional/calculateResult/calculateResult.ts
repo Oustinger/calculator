@@ -1,16 +1,16 @@
 import arrayHelper from '../../utils/arrayHelper';
 import isNumber from '../../utils/isNumber';
 import CalcOperationClass from '../operations/calculateOperations/calcOperationClass';
-import parseSymbols, { ExprStructureType } from './parseSymbols';
+import parseSymbols, { TExprStructure } from './parseSymbols';
 
-export type ExpressionType = Array<number | CalcOperationClass>;
+export type TExpression = Array<number | CalcOperationClass>;
 
 export interface ICalculateExpr {
-    expr: ExpressionType;
+    expr: TExpression;
     index?: number;
     maxPriority?: number;
     maxPriorityOperationIndex?: number | null;
-    [key: string]: ExpressionType | number | null | undefined;
+    [key: string]: TExpression | number | null | undefined;
 }
 
 const calculateExprDefValues: ICalculateExpr = {
@@ -92,11 +92,11 @@ const calculateExpr = (params: ICalculateExpr): number => {
     return calculateExpr({ expr, index: index + 1, maxPriority, maxPriorityOperationIndex });
 };
 
-const makeCalculations = (exprStructure: ExprStructureType): number => {
+const makeCalculations = (exprStructure: TExprStructure): number => {
     if (isNumber(exprStructure)) return exprStructure;
 
-    const exprStructureWithOutParentheses: ExpressionType = exprStructure.map(
-        (exprChild: number | CalcOperationClass | ExprStructureType): number | CalcOperationClass =>
+    const exprStructureWithOutParentheses: TExpression = exprStructure.map(
+        (exprChild: number | CalcOperationClass | TExprStructure): number | CalcOperationClass =>
             Array.isArray(exprChild) ? makeCalculations(exprChild) : exprChild
     );
 
