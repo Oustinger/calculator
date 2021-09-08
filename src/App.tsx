@@ -25,7 +25,7 @@ import {
 } from './redux/calc/calcSelectors';
 import store from './redux/store';
 
-type TFormatOperationWithFunc = TFormatOperation & {
+export type TFormatOperationWithFunc = TFormatOperation & {
     func: TInputFunc;
 };
 
@@ -49,7 +49,7 @@ const setFunctions = (operations: IFormatOperations, inputFuncs: TInputFunctions
         return { ...acc, [operationName]: newOperation };
     }, {});
 
-type TOperationsBlock = TFormatOperationWithFunc[];
+export type TOperationsBlock = TFormatOperationWithFunc[];
 
 const getOperationsByBlocks = (
     defaultOperations: IFormatOperations,
