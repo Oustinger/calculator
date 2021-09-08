@@ -3,7 +3,7 @@ import { connect, Provider, RootStateOrAny } from 'react-redux';
 import './App.module.css';
 import styles from './App.module.css';
 import Input from './components/inputPart/Input';
-import Output from './components/outputPart/Output';
+import Output, { TOutput } from './components/outputPart/Output';
 import {
     addSymbol,
     TCalcReducerPayloadAction,
@@ -154,19 +154,21 @@ const AppComponent = (props: AppProps) => {
         // eslint-disable-next-line
     }, []);
 
+    const OutputProps: TOutput = {
+        expression: props.expression,
+        inputVal: props.inputVal,
+        error: props.error,
+        onInputChange: (e: React.ChangeEvent<HTMLInputElement>): void => {
+            if (e.currentTarget) props.setInput((e.currentTarget as HTMLInputElement).value);
+        },
+    };
+
     return (
         <div ref={appWrapperRef} className={styles.app__wrapper} tabIndex={1}>
             <div className={styles.app}>
                 <div className={styles.app__background}>
                     <div className={styles.app__container}>
-                        <Output
-                            expression={props.expression}
-                            inputVal={props.inputVal}
-                            error={props.error}
-                            onInputChange={(e: Event) =>
-                                e.currentTarget ? props.setInput((e.currentTarget as HTMLInputElement).value) : null
-                            }
-                        />
+                        <Output {...OutputProps} />
                         <Input
                             numbersInputsBlockOpers={numbersInputsBlockOpers}
                             topLineBlockOpers={topLineBlockOpers}
