@@ -10,6 +10,17 @@ export const getInput = (state: RootStateOrAny): string => state.calc.input;
 export const getExpression = (state: RootStateOrAny): string => state.calc.expression;
 export const getError = (state: RootStateOrAny): string => state.calc.error;
 
+export type TFormatOperation = {
+    symbol: string;
+    exSymbols: Array<string>;
+    funcName: string;
+    isInvert: boolean;
+};
+
+export interface IFormatOperations {
+    [operationName: string]: TFormatOperation;
+}
+
 const formatOperations = (
     operations: {
         [operationName: string]: CommonOperationInterface;
@@ -20,14 +31,7 @@ const formatOperations = (
             isInvert?: boolean;
         };
     } = {}
-): {
-    [operationName: string]: {
-        symbol: string;
-        exSymbols: Array<string>;
-        funcName: string;
-        isInvert: boolean;
-    };
-} =>
+): IFormatOperations =>
     Object.entries(operations).reduce(
         (acc, [name, operation]) => ({
             ...acc,

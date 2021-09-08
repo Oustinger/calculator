@@ -33,14 +33,14 @@ const initialState: calcReducerStateInterface = {
     error: null,
 };
 
-type MyPayloadAction = PayloadAction<{ [key: string]: string }>;
+export type TCalcReducerPayloadAction = PayloadAction<{ [key: string]: string } | undefined>;
 
 export const calcSlice = createSlice({
     name: 'calc',
     initialState,
     reducers: {
-        setInputAction: (state, action: MyPayloadAction) => ({ ...state, ...action.payload }),
-        addSymbolAction: (state, action: MyPayloadAction) => ({
+        setInputAction: (state, action: TCalcReducerPayloadAction) => ({ ...state, ...action.payload }),
+        addSymbolAction: (state, action: TCalcReducerPayloadAction) => ({
             ...state,
             input: `${state.input}${action.payload ? action.payload.symbol : ''}`,
         }),
@@ -60,10 +60,10 @@ export const calcSlice = createSlice({
 
 const { setInputAction, addSymbolAction, calculateAction, cleanAction, deleteLastSymbolAction } = calcSlice.actions;
 
-export const setInput = (input: string) => setInputAction({ input });
-export const addSymbol = (symbol: string) => addSymbolAction({ symbol });
-export const calculate = () => calculateAction();
-export const clean = () => cleanAction();
-export const deleteLastSymbol = () => deleteLastSymbolAction();
+export const setInput = (input: string): TCalcReducerPayloadAction => setInputAction({ input });
+export const addSymbol = (symbol: string): TCalcReducerPayloadAction => addSymbolAction({ symbol });
+export const calculate = (): TCalcReducerPayloadAction => calculateAction();
+export const clean = (): TCalcReducerPayloadAction => cleanAction();
+export const deleteLastSymbol = (): TCalcReducerPayloadAction => deleteLastSymbolAction();
 
 export default calcSlice.reducer;

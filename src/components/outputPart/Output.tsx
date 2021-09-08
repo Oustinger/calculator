@@ -1,6 +1,13 @@
 import styles from './Output.module.css';
 
-const Output = ({ expression, inputVal, error, onInputChange }) => {
+export type TOutput = {
+    expression: string;
+    inputVal: string;
+    error: string;
+    onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+const Output = ({ expression, inputVal, error, onInputChange }: TOutput) => {
     return (
         <div className={styles.output}>
             <div className={styles.expression}>{expression}</div>
