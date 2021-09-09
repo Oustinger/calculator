@@ -2,7 +2,7 @@ import arrayHelper from '../../utils/arrayHelper';
 import isNumber from '../../utils/isNumber';
 import CalcOperationClass from '../operations/calculateOperations/calcOperationClass';
 import findOperationBySymbol from '../operations/calculateOperations/findOperationBySymbol';
-import isInstanceofCalcOperation from '../operations/calculateOperations/isInstanceofCalcOperation';
+import isCalcOperationInstance from '../operations/calculateOperations/isInstanceofCalcOperation';
 import findNumberInputBySymbol from '../operations/numbersInputs/findNumberInputBySymbol';
 import findParenthesis from '../operations/parentheses/findParenthesis';
 
@@ -12,9 +12,7 @@ export const isExprStructureInstance = (exprStructureInstance: any): exprStructu
     if (Array.isArray(exprStructureInstance)) {
         return exprStructureInstance.reduce(
             (acc, element) =>
-                isNumber(element) || isInstanceofCalcOperation(element) || isExprStructureInstance(element)
-                    ? true
-                    : acc,
+                isNumber(element) || isCalcOperationInstance(element) || isExprStructureInstance(element) ? true : acc,
             false
         );
     }
@@ -160,7 +158,7 @@ const validateCalcOperations = (exprStructure: TExprStructure, index: number = 0
         return;
     }
 
-    if (isInstanceofCalcOperation(element)) element.validate(exprStructure, index);
+    if (isCalcOperationInstance(element)) element.validate(exprStructure, index);
 
     validateCalcOperations(exprStructure, index + 1);
 };

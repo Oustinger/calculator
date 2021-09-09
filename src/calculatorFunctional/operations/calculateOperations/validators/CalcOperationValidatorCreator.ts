@@ -1,7 +1,7 @@
 import isNumber from '../../../../utils/isNumber';
 import { TExprStructure } from '../../../calculateResult/parseSymbols';
 import { ICalcOperationClass } from '../calcOperationClass';
-import isInstanceofCalcOperation from '../isInstanceofCalcOperation';
+import isCalcOperationInstance from '../isInstanceofCalcOperation';
 import {
     ICalcOperationValidator,
     TCalcOperationValidateAPI,
@@ -77,12 +77,12 @@ class CalcOperationValidatorCreator implements ICalcOperationValidator {
         if (isExist) {
             const prevExprElem = exprStructure[prevExprElemIndex];
 
-            const isInstanceofCalcOperationValue = isInstanceofCalcOperation(prevExprElem);
+            const isInstanceofCalcOperationValue = isCalcOperationInstance(prevExprElem);
 
             result.isNumber = isNumber(prevExprElem);
             result.isInstanceofCalcOperation = isInstanceofCalcOperationValue;
 
-            if (isInstanceofCalcOperation(prevExprElem)) {
+            if (isCalcOperationInstance(prevExprElem)) {
                 result.canBePlacedBeforeOtherOperation = prevExprElem.canBePlacedBeforeOtherOperation;
                 result.canBePlacedAfterOtherOperation = prevExprElem.canBePlacedAfterOtherOperation;
             }
@@ -101,12 +101,12 @@ class CalcOperationValidatorCreator implements ICalcOperationValidator {
         if (isExist) {
             const nextExprElem = exprStructure[nextExprElemIndex];
 
-            const isInstanceofCalcOperationValue = isInstanceofCalcOperation(nextExprElem);
+            const isInstanceofCalcOperationValue = isCalcOperationInstance(nextExprElem);
 
             result.isNumber = isNumber(nextExprElem);
             result.isInstanceofCalcOperation = isInstanceofCalcOperationValue;
 
-            if (isInstanceofCalcOperation(nextExprElem)) {
+            if (isCalcOperationInstance(nextExprElem)) {
                 result.canBePlacedBeforeOtherOperation = nextExprElem.canBePlacedBeforeOtherOperation;
                 result.canBePlacedAfterOtherOperation = nextExprElem.canBePlacedAfterOtherOperation;
             }
