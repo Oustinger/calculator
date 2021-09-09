@@ -2,6 +2,7 @@ import arrayHelper from '../../utils/arrayHelper';
 import isNumber from '../../utils/isNumber';
 import CalcOperationClass from '../operations/calculateOperations/calcOperationClass';
 import findOperationBySymbol from '../operations/calculateOperations/findOperationBySymbol';
+import isInstanceofCalcOperation from '../operations/calculateOperations/isInstanceofCalcOperation';
 import findNumberInputBySymbol from '../operations/numbersInputs/findNumberInputBySymbol';
 import findParenthesis from '../operations/parentheses/findParenthesis';
 
@@ -159,7 +160,7 @@ const validateCalcOperations = (exprStructure: TExprStructure, index: number = 0
         return;
     }
 
-    if (!isNumber(element)) element.validate(exprStructure, index);
+    if (isInstanceofCalcOperation(element)) element.validate(exprStructure, index);
 
     validateCalcOperations(exprStructure, index + 1);
 };
