@@ -1,1 +1,3 @@
-export default (value: any): value is Error => value instanceof Error;
+const isError = (value: any): value is Error => value instanceof Error;
+
+export default isError;
