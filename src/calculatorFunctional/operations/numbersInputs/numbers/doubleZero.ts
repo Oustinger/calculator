@@ -1,5 +1,15 @@
 import CommonOperationClass from '../../commonOperationClass';
+import zero from './default/zero';
 
-const doubleZero = new CommonOperationClass('00');
+class DoubleZero extends CommonOperationClass {
+    constructor(readonly symbols: CommonOperationClass[], readonly exSymbols: Array<string> = []) {
+        super(
+            symbols.reduce((acc, operation) => `${acc}${operation.getSymbol()}`, ''), // create superSymbol from symbols
+            exSymbols
+        );
+    }
+}
+
+const doubleZero = new DoubleZero([zero, zero]);
 
 export default doubleZero;
