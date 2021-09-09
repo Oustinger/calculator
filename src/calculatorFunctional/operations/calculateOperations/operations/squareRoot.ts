@@ -1,6 +1,9 @@
 import { TExpression } from '../../../calculateResult/calculateResult';
-import { TExprStructure } from '../../../calculateResult/parseSymbols';
 import CalcOperationClass from '../calcOperationClass';
+import argumentsNotFound from '../parseCheckers/checkers/argumentsNotFound';
+import exprOnLeftMustNotBeNum from '../parseCheckers/checkers/exprOnLeftMustNotBeNum';
+import numOnRightMustBe from '../parseCheckers/checkers/numOnRightMustBe';
+import ParseCheckerCreator from '../parseCheckers/ParseCheckerCreator';
 
 class SquareRoot extends CalcOperationClass {
     readonly canBePlacedAfterOtherOperation: boolean = true;
@@ -12,18 +15,14 @@ class SquareRoot extends CalcOperationClass {
 
         return [leftNumber * Math.pow(rightNumber, 0.5)];
     }
-
-    parseCheck(exprStructure: TExprStructure, index: number): void {
-        super.parseCheck(exprStructure, index);
-
-        const { isExistLeftNum } = this.getLeftNum(exprStructure, index);
-        const { isExistRightNum } = this.getRightNum(exprStructure, index);
-
-        this.numOnRightMustBe(isExistRightNum);
-        this.exprOnLeftMustNotBeNum(isExistLeftNum);
-    }
 }
 
-const squareRoot = new SquareRoot('square root', '√', 2);
+const parseCheckers = [
+    new ParseCheckerCreator(argumentsNotFound),
+    new ParseCheckerCreator(numOnRightMustBe),
+    new ParseCheckerCreator(exprOnLeftMustNotBeNum),
+];
+
+const squareRoot = new SquareRoot('square root', '√', 2, parseCheckers);
 
 export default squareRoot;

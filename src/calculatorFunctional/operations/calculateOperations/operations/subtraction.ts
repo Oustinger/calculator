@@ -1,6 +1,8 @@
 import { TExpression } from '../../../calculateResult/calculateResult';
-import { TExprStructure } from '../../../calculateResult/parseSymbols';
 import CalcOperationClass from '../calcOperationClass';
+import argumentsNotFound from '../parseCheckers/checkers/argumentsNotFound';
+import ParseCheckerCreator from '../parseCheckers/ParseCheckerCreator';
+import stepByStepOperations from '../parseCheckers/checkers/stepByStepOperations';
 
 class Subtraction extends CalcOperationClass {
     calculate(params: { leftArg: number | null; rightArg: number | null }): TExpression {
@@ -9,14 +11,10 @@ class Subtraction extends CalcOperationClass {
 
         return [leftNumber - rightNumber];
     }
-
-    parseCheck(exprStructure: TExprStructure, index: number): void {
-        super.parseCheck(exprStructure, index);
-
-        this.stepByStepOperations(exprStructure, index);
-    }
 }
 
-const subtraction = new Subtraction('subtraction', '-', 0);
+const parseCheckers = [new ParseCheckerCreator(argumentsNotFound), new ParseCheckerCreator(stepByStepOperations)];
+
+const subtraction = new Subtraction('subtraction', '-', 0, parseCheckers);
 
 export default subtraction;

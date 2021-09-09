@@ -1,7 +1,9 @@
-import isNumber from '../../../../utils/isNumber';
 import { TExpression } from '../../../calculateResult/calculateResult';
-import { TExprStructure } from '../../../calculateResult/parseSymbols';
 import CalcOperationClass from '../calcOperationClass';
+import argumentsNotFound from '../parseCheckers/checkers/argumentsNotFound';
+import divideByZero from '../parseCheckers/checkers/divideByZero';
+import ParseCheckerCreator from '../parseCheckers/ParseCheckerCreator';
+import stepByStepOperations from '../parseCheckers/checkers/stepByStepOperations';
 
 class Division extends CalcOperationClass {
     calculate(params: { leftArg: number | null; rightArg: number | null }): TExpression {
@@ -10,25 +12,14 @@ class Division extends CalcOperationClass {
 
         return [leftNumber / rightNumber];
     }
-
-    parseCheck(exprStructure: TExprStructure, index: number): void {
-        super.parseCheck(exprStructure, index);
-
-        const { rightNum } = this.getRightNum(exprStructure, index);
-
-        this.stepByStepOperations(exprStructure, index);
-
-        if (isNumber(rightNum)) this.divideByZero(rightNum);
-    }
-
-    // custom parse checkers
-    divideByZero(rightNum: number): void {
-        if (rightNum === 0) {
-            throw new Error('You cannot divide by zero');
-        }
-    }
 }
 
-const division = new Division('division', '/', 1);
+const parseCheckers = [
+    new ParseCheckerCreator(argumentsNotFound),
+    new ParseCheckerCreator(stepByStepOperations),
+    new ParseCheckerCreator(divideByZero),
+];
+
+const division = new Division('division', '/', 1, parseCheckers);
 
 export default division;

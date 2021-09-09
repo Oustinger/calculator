@@ -1,20 +1,14 @@
 import arrayHelper from '../../../../utils/arrayHelper';
 import isNumber from '../../../../utils/isNumber';
 import { ICalculateExpr, TExpression } from '../../../calculateResult/calculateResult';
-import { TExprStructure } from '../../../calculateResult/parseSymbols';
 import CalcOperationClass from '../calcOperationClass';
+import argumentsNotFound from '../parseCheckers/checkers/argumentsNotFound';
+import numOnRightMustNotBe from '../parseCheckers/checkers/numOnRightMustNotBe';
+import ParseCheckerCreator from '../parseCheckers/ParseCheckerCreator';
 
 class Percent extends CalcOperationClass {
     readonly canBePlacedBeforeOtherOperation: boolean = true;
     readonly hasOwnFullCalculateFunc: boolean = true;
-
-    parseCheck(exprStructure: TExprStructure, index: number): void {
-        super.parseCheck(exprStructure, index);
-
-        const { isExistRightNum } = this.getRightNum(exprStructure, index);
-
-        this.numOnRightMustNotBe(isExistRightNum);
-    }
 
     calculate(params: {
         expr: TExpression;
@@ -60,6 +54,8 @@ class Percent extends CalcOperationClass {
     }
 }
 
-const percent = new Percent('percent', '%', 2);
+const parseCheckers = [new ParseCheckerCreator(argumentsNotFound), new ParseCheckerCreator(numOnRightMustNotBe)];
+
+const percent = new Percent('percent', '%', 2, parseCheckers);
 
 export default percent;
