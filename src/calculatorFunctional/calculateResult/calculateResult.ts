@@ -1,7 +1,7 @@
 import arrayHelper from '../../utils/arrayHelper';
 import isNumber from '../../utils/isNumber';
 import CalcOperationClass from '../operations/calculateOperations/calcOperationClass';
-import parseSymbols, { TExprStructure } from './parseSymbols';
+import parseSymbols, { isExprStructureInstance, TExprStructure } from './parseSymbols';
 
 export type TExpression = Array<number | CalcOperationClass>;
 
@@ -96,7 +96,7 @@ const makeCalculations = (exprStructure: TExprStructure): number => {
 
     const exprStructureWithOutParentheses: TExpression = exprStructure.map(
         (exprChild: number | CalcOperationClass | TExprStructure): number | CalcOperationClass =>
-            Array.isArray(exprChild) ? makeCalculations(exprChild) : exprChild
+            isExprStructureInstance(exprChild) ? makeCalculations(exprChild) : exprChild
     );
 
     return calculateExpr({ expr: exprStructureWithOutParentheses });

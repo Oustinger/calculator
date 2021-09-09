@@ -7,6 +7,20 @@ import findParenthesis from '../operations/parentheses/findParenthesis';
 
 export type TExprStructure = Array<number | CalcOperationClass | TExprStructure>;
 
+export const isExprStructureInstance = (exprStructureInstance: any): exprStructureInstance is TExprStructure => {
+    if (Array.isArray(exprStructureInstance)) {
+        return exprStructureInstance.reduce(
+            (acc, element) =>
+                isNumber(element) || isInstanceofCalcOperation(element) || isExprStructureInstance(element)
+                    ? true
+                    : acc,
+            false
+        );
+    }
+
+    return false;
+};
+
 const checkParenthesisPairFinder = (count: number, checkType?: string): void => {
     const errorMessage = 'Some parenthesis pair not found';
 
@@ -68,7 +82,7 @@ const parse = (
         if (parenthesis.getType() === 'open') {
             const parseResult = parse(symbols, index + 1, parenthesisPairFinder + 1);
 
-            if (Array.isArray(parseResult)) return parseResult;
+            if (isExprStructureInstance(parseResult)) return parseResult;
 
             const {
                 index: closeParenthesisIndex,
@@ -140,7 +154,7 @@ const validateCalcOperations = (exprStructure: TExprStructure, index: number = 0
 
     const element = exprStructure[index];
 
-    if (Array.isArray(element)) {
+    if (isExprStructureInstance(element)) {
         validateCalcOperations(element);
         return;
     }
@@ -153,8 +167,10 @@ const validateCalcOperations = (exprStructure: TExprStructure, index: number = 0
 const parseSymbols = (symbols: string): TExprStructure => {
     const exprStructure = parse(symbols.split(''));
 
-    if (!Array.isArray(exprStructure))
-        throw new Error('Programming error: expression structure is not an array in "parseSymbols" function');
+    if (!isExprStructureInstance(exprStructure))
+        throw new Error(
+            'Programming error: expected an expression structure but received parse function "parseSymbols" function'
+        );
 
     validateCalcOperations(exprStructure);
 
