@@ -135,19 +135,19 @@ const parse = (
     throw new Error(`Unknown symbol: " ${symbol} "`);
 };
 
-const checkByOperationsCheckers = (exprStructure: TExprStructure, index: number = 0): void => {
+const validateCalcOperations = (exprStructure: TExprStructure, index: number = 0): void => {
     if (index === exprStructure.length) return;
 
     const element = exprStructure[index];
 
     if (Array.isArray(element)) {
-        checkByOperationsCheckers(element);
+        validateCalcOperations(element);
         return;
     }
 
-    if (!isNumber(element)) element.parseCheck(exprStructure, index);
+    if (!isNumber(element)) element.validate(exprStructure, index);
 
-    checkByOperationsCheckers(exprStructure, index + 1);
+    validateCalcOperations(exprStructure, index + 1);
 };
 
 const parseSymbols = (symbols: string): TExprStructure => {
@@ -156,7 +156,7 @@ const parseSymbols = (symbols: string): TExprStructure => {
     if (!Array.isArray(exprStructure))
         throw new Error('Programming error: expression structure is not an array in "parseSymbols" function');
 
-    checkByOperationsCheckers(exprStructure);
+    validateCalcOperations(exprStructure);
 
     return exprStructure;
 };

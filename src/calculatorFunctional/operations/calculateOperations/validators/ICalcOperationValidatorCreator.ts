@@ -1,7 +1,7 @@
 import { TExprStructure } from '../../../calculateResult/parseSymbols';
 import { ICalcOperationClass } from '../calcOperationClass';
 
-export type TParseCheckerMethodParams = {
+export type TCalcOperationValidatorMethodParams = {
     operationValidateAPI: TCalcOperationValidateAPI;
     leftNumValidateAPI: TLeftNumValidateAPI;
     rightNumValidateAPI: TRightNumValidateAPI;
@@ -9,7 +9,7 @@ export type TParseCheckerMethodParams = {
     nextExprElemValidateAPI: TNextExprElemValidateAPI;
 };
 
-export type TParseCheckerMethod = (params: TParseCheckerMethodParams) => void;
+export type TCalcOperationValidatorMethod = (params: TCalcOperationValidatorMethodParams) => void;
 
 export type TCalcOperationValidateAPI = {
     operationName: string;
@@ -43,8 +43,8 @@ export type TNextExprElemValidateAPI = {
     canBePlacedAfterOtherOperation?: boolean;
 };
 
-export interface IParseChecker {
-    readonly checkMethod: TParseCheckerMethod;
+export interface ICalcOperationValidator {
+    readonly checkMethod: TCalcOperationValidatorMethod;
     check: (operation: ICalcOperationClass, exprStructure: TExprStructure, index: number) => void;
     getOperationValidateAPI: (operation: ICalcOperationClass) => TCalcOperationValidateAPI;
     getLeftNumValidateAPI: (exprStructure: TExprStructure, index: number) => TLeftNumValidateAPI;

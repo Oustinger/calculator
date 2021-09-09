@@ -3,19 +3,19 @@ import { TExprStructure } from '../../../calculateResult/parseSymbols';
 import { ICalcOperationClass } from '../calcOperationClass';
 import isInstanceofCalcOperation from '../isInstanceofCalcOperation';
 import {
-    IParseChecker,
+    ICalcOperationValidator,
     TCalcOperationValidateAPI,
     TLeftNumValidateAPI,
     TNextExprElemValidateAPI,
-    TParseCheckerMethod,
+    TCalcOperationValidatorMethod,
     TPrevExprElemValidateAPI,
     TRightNumValidateAPI,
-} from './IParseCheckerCreator';
+} from './ICalcOperationValidatorCreator';
 
-class ParseCheckerCreator implements IParseChecker {
-    readonly checkMethod: TParseCheckerMethod;
+class CalcOperationValidatorCreator implements ICalcOperationValidator {
+    readonly checkMethod: TCalcOperationValidatorMethod;
 
-    constructor(checkMethod: TParseCheckerMethod) {
+    constructor(checkMethod: TCalcOperationValidatorMethod) {
         this.checkMethod = checkMethod;
     }
 
@@ -116,4 +116,4 @@ class ParseCheckerCreator implements IParseChecker {
     }
 }
 
-export default ParseCheckerCreator;
+export default CalcOperationValidatorCreator;

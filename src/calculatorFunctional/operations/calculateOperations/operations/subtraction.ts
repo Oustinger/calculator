@@ -1,8 +1,8 @@
 import { TExpression } from '../../../calculateResult/calculateResult';
 import CalcOperationClass from '../calcOperationClass';
-import argumentsNotFound from '../parseCheckers/checkers/argumentsNotFound';
-import ParseCheckerCreator from '../parseCheckers/ParseCheckerCreator';
-import stepByStepOperations from '../parseCheckers/checkers/stepByStepOperations';
+import argumentsNotFound from '../validators/checkers/argumentsNotFound';
+import CalcOperationValidatorCreator from '../validators/CalcOperationValidatorCreator';
+import stepByStepOperations from '../validators/checkers/stepByStepOperations';
 
 class Subtraction extends CalcOperationClass {
     calculate(params: { leftArg: number | null; rightArg: number | null }): TExpression {
@@ -13,8 +13,11 @@ class Subtraction extends CalcOperationClass {
     }
 }
 
-const parseCheckers = [new ParseCheckerCreator(argumentsNotFound), new ParseCheckerCreator(stepByStepOperations)];
+const validators = [
+    new CalcOperationValidatorCreator(argumentsNotFound),
+    new CalcOperationValidatorCreator(stepByStepOperations),
+];
 
-const subtraction = new Subtraction('subtraction', '-', 0, parseCheckers);
+const subtraction = new Subtraction('subtraction', '-', 0, validators);
 
 export default subtraction;

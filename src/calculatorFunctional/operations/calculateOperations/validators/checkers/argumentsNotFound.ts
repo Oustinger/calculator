@@ -1,10 +1,10 @@
-import { TParseCheckerMethod, TParseCheckerMethodParams } from '../IParseCheckerCreator';
+import { TCalcOperationValidatorMethod, TCalcOperationValidatorMethodParams } from '../ICalcOperationValidatorCreator';
 
-const argumentsNotFound: TParseCheckerMethod = ({
+const argumentsNotFound: TCalcOperationValidatorMethod = ({
     operationValidateAPI,
     prevExprElemValidateAPI,
     nextExprElemValidateAPI,
-}: TParseCheckerMethodParams): void => {
+}: TCalcOperationValidatorMethodParams): void => {
     if (
         !(
             (prevExprElemValidateAPI.isExist || nextExprElemValidateAPI.isExist) &&

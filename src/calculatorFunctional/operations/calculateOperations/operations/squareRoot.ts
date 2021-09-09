@@ -1,9 +1,9 @@
 import { TExpression } from '../../../calculateResult/calculateResult';
 import CalcOperationClass from '../calcOperationClass';
-import argumentsNotFound from '../parseCheckers/checkers/argumentsNotFound';
-import exprOnLeftMustNotBeNum from '../parseCheckers/checkers/exprOnLeftMustNotBeNum';
-import numOnRightMustBe from '../parseCheckers/checkers/numOnRightMustBe';
-import ParseCheckerCreator from '../parseCheckers/ParseCheckerCreator';
+import argumentsNotFound from '../validators/checkers/argumentsNotFound';
+import exprOnLeftMustNotBeNum from '../validators/checkers/exprOnLeftMustNotBeNum';
+import numOnRightMustBe from '../validators/checkers/numOnRightMustBe';
+import CalcOperationValidatorCreator from '../validators/CalcOperationValidatorCreator';
 
 class SquareRoot extends CalcOperationClass {
     readonly canBePlacedAfterOtherOperation: boolean = true;
@@ -17,12 +17,12 @@ class SquareRoot extends CalcOperationClass {
     }
 }
 
-const parseCheckers = [
-    new ParseCheckerCreator(argumentsNotFound),
-    new ParseCheckerCreator(numOnRightMustBe),
-    new ParseCheckerCreator(exprOnLeftMustNotBeNum),
+const validators = [
+    new CalcOperationValidatorCreator(argumentsNotFound),
+    new CalcOperationValidatorCreator(numOnRightMustBe),
+    new CalcOperationValidatorCreator(exprOnLeftMustNotBeNum),
 ];
 
-const squareRoot = new SquareRoot('square root', '√', 2, parseCheckers);
+const squareRoot = new SquareRoot('square root', '√', 2, validators);
 
 export default squareRoot;

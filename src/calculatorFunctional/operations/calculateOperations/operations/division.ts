@@ -1,9 +1,9 @@
 import { TExpression } from '../../../calculateResult/calculateResult';
 import CalcOperationClass from '../calcOperationClass';
-import argumentsNotFound from '../parseCheckers/checkers/argumentsNotFound';
-import divideByZero from '../parseCheckers/checkers/divideByZero';
-import ParseCheckerCreator from '../parseCheckers/ParseCheckerCreator';
-import stepByStepOperations from '../parseCheckers/checkers/stepByStepOperations';
+import argumentsNotFound from '../validators/checkers/argumentsNotFound';
+import divideByZero from '../validators/checkers/divideByZero';
+import CalcOperationValidatorCreator from '../validators/CalcOperationValidatorCreator';
+import stepByStepOperations from '../validators/checkers/stepByStepOperations';
 
 class Division extends CalcOperationClass {
     calculate(params: { leftArg: number | null; rightArg: number | null }): TExpression {
@@ -14,12 +14,12 @@ class Division extends CalcOperationClass {
     }
 }
 
-const parseCheckers = [
-    new ParseCheckerCreator(argumentsNotFound),
-    new ParseCheckerCreator(stepByStepOperations),
-    new ParseCheckerCreator(divideByZero),
+const validators = [
+    new CalcOperationValidatorCreator(argumentsNotFound),
+    new CalcOperationValidatorCreator(stepByStepOperations),
+    new CalcOperationValidatorCreator(divideByZero),
 ];
 
-const division = new Division('division', '/', 1, parseCheckers);
+const division = new Division('division', '/', 1, validators);
 
 export default division;

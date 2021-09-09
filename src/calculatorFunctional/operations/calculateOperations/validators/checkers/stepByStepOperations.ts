@@ -1,10 +1,10 @@
-import { TParseCheckerMethod, TParseCheckerMethodParams } from '../IParseCheckerCreator';
+import { TCalcOperationValidatorMethod, TCalcOperationValidatorMethodParams } from '../ICalcOperationValidatorCreator';
 
-const stepByStepOperations: TParseCheckerMethod = ({
+const stepByStepOperations: TCalcOperationValidatorMethod = ({
     operationValidateAPI,
     prevExprElemValidateAPI,
     nextExprElemValidateAPI,
-}: TParseCheckerMethodParams): void => {
+}: TCalcOperationValidatorMethodParams): void => {
     if (
         (prevExprElemValidateAPI.isExist &&
             prevExprElemValidateAPI.isInstanceofCalcOperation &&

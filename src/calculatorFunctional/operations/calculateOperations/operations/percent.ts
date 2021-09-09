@@ -2,9 +2,9 @@ import arrayHelper from '../../../../utils/arrayHelper';
 import isNumber from '../../../../utils/isNumber';
 import { ICalculateExpr, TExpression } from '../../../calculateResult/calculateResult';
 import CalcOperationClass from '../calcOperationClass';
-import argumentsNotFound from '../parseCheckers/checkers/argumentsNotFound';
-import numOnRightMustNotBe from '../parseCheckers/checkers/numOnRightMustNotBe';
-import ParseCheckerCreator from '../parseCheckers/ParseCheckerCreator';
+import argumentsNotFound from '../validators/checkers/argumentsNotFound';
+import numOnRightMustNotBe from '../validators/checkers/numOnRightMustNotBe';
+import CalcOperationValidatorCreator from '../validators/CalcOperationValidatorCreator';
 
 class Percent extends CalcOperationClass {
     readonly canBePlacedBeforeOtherOperation: boolean = true;
@@ -54,8 +54,11 @@ class Percent extends CalcOperationClass {
     }
 }
 
-const parseCheckers = [new ParseCheckerCreator(argumentsNotFound), new ParseCheckerCreator(numOnRightMustNotBe)];
+const validators = [
+    new CalcOperationValidatorCreator(argumentsNotFound),
+    new CalcOperationValidatorCreator(numOnRightMustNotBe),
+];
 
-const percent = new Percent('percent', '%', 2, parseCheckers);
+const percent = new Percent('percent', '%', 2, validators);
 
 export default percent;

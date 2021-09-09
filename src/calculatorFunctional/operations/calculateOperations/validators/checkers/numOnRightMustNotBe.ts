@@ -1,9 +1,9 @@
-import { TParseCheckerMethod, TParseCheckerMethodParams } from '../IParseCheckerCreator';
+import { TCalcOperationValidatorMethod, TCalcOperationValidatorMethodParams } from '../ICalcOperationValidatorCreator';
 
-const numOnRightMustNotBe: TParseCheckerMethod = ({
+const numOnRightMustNotBe: TCalcOperationValidatorMethod = ({
     operationValidateAPI,
     rightNumValidateAPI,
-}: TParseCheckerMethodParams): void => {
+}: TCalcOperationValidatorMethodParams): void => {
     if (rightNumValidateAPI.isExist)
         throw new Error(`The ${operationValidateAPI.operationName} operation mustn't has a number on the right`);
 };
