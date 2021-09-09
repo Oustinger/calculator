@@ -1,14 +1,14 @@
 export interface ICommonOperation {
     readonly symbol: string;
-    readonly exSymbols?: Array<string>;
+    readonly exSymbols?: string[];
     getSymbol(): string;
-    getExSymbols(): Array<string>;
+    getExSymbols(): string[];
     getMathCorrectSymbol(): string;
     checkIsOperation(symbol: string): boolean;
 }
 
 export default class CommonOperationClass implements ICommonOperation {
-    constructor(readonly symbol: string, readonly exSymbols: Array<string> = []) {
+    constructor(readonly symbol: string, readonly exSymbols: string[] = []) {
         this.symbol = symbol;
         this.exSymbols = exSymbols;
     }
@@ -17,7 +17,7 @@ export default class CommonOperationClass implements ICommonOperation {
         return this.symbol;
     }
 
-    getExSymbols(): Array<string> {
+    getExSymbols(): string[] {
         return this.exSymbols;
     }
 

@@ -6,7 +6,7 @@ import isCalcOperationInstance from '../operations/calculateOperations/isInstanc
 import findNumberInputBySymbol from '../operations/numbersInputs/findNumberInputBySymbol';
 import findParenthesis from '../operations/parentheses/findParenthesis';
 
-export type TExprStructure = Array<number | CalcOperationClass | TExprStructure>;
+export type TExprStructure = (number | CalcOperationClass | TExprStructure)[];
 
 export const isExprStructureInstance = (exprStructureInstance: any): exprStructureInstance is TExprStructure => {
     if (Array.isArray(exprStructureInstance)) {
@@ -51,17 +51,17 @@ function hasStringExprStructure(exprStructure: TExprStructureWithString): exprSt
     });
 }
 
-type TExprStructureWithString = Array<number | CalcOperationClass | TExprStructure | string>;
+type TExprStructureWithString = (number | CalcOperationClass | TExprStructure | string)[];
 
 interface IParse {
-    symbols: Array<string>;
+    symbols: string[];
     index: number;
     parenthesisPairFinder: number;
     exprStructure: TExprStructureWithString;
 }
 
 const parse = (
-    symbols: Array<string>,
+    symbols: string[],
     index: number = 0,
     parenthesisPairFinder: number = 0,
     exprStructure: TExprStructureWithString = []

@@ -3,7 +3,7 @@ import isNumber from '../../utils/isNumber';
 import CalcOperationClass from '../operations/calculateOperations/calcOperationClass';
 import parseSymbols, { isExprStructureInstance, TExprStructure } from './parseSymbols';
 
-export type TExpression = Array<number | CalcOperationClass>;
+export type TExpression = (number | CalcOperationClass)[];
 
 export interface ICalculateExpr {
     expr: TExpression;

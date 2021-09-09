@@ -12,7 +12,7 @@ export const getError = (state: RootStateOrAny): string => state.calc.error;
 
 export type TFormatOperation = {
     symbol: string;
-    exSymbols: Array<string>;
+    exSymbols: string[];
     funcName: string;
     isInvert: boolean;
 };

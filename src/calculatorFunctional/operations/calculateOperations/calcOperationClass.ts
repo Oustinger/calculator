@@ -7,7 +7,7 @@ export interface ICalcOperationClass extends ICommonOperation {
     readonly symbol: string;
     readonly priority: number;
     readonly validators: ICalcOperationValidator[];
-    readonly exSymbols?: Array<string>;
+    readonly exSymbols?: string[];
 
     readonly canBePlacedAfterOtherOperation: boolean;
     readonly canBePlacedBeforeOtherOperation: boolean;
@@ -24,7 +24,7 @@ export default class CalcOperationClass extends CommonOperationClass implements 
         readonly symbol: string,
         readonly priority: number,
         readonly validators: ICalcOperationValidator[],
-        readonly exSymbols: Array<string> = []
+        readonly exSymbols: string[] = []
     ) {
         super(symbol, exSymbols);
         this.operationName = operationName;
