@@ -12,7 +12,12 @@ export const isExprStructureInstance = (exprStructureInstance: any): exprStructu
     if (Array.isArray(exprStructureInstance)) {
         return exprStructureInstance.reduce(
             (acc, element) =>
-                isNumber(element) || isCalcOperationInstance(element) || isExprStructureInstance(element) ? true : acc,
+                isNumber(element) ||
+                isCalcOperationInstance(element) ||
+                isExprStructureInstance(element) ||
+                element.length === 0
+                    ? true
+                    : acc,
             false
         );
     }
